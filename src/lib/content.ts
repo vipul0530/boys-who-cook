@@ -124,7 +124,7 @@ function readJson<T>(filePath: string): T {
   return JSON.parse(raw) as T;
 }
 
-function readMarkdownDir(folder: string) {
+function readMarkdownDir(folder: string): Record<string, unknown>[] {
   const dir = path.join(contentDir, folder);
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -133,7 +133,7 @@ function readMarkdownDir(folder: string) {
     .map((filename) => {
       const raw = fs.readFileSync(path.join(dir, filename), "utf-8");
       const { data, content } = matter(raw);
-      return { slug: filename.replace(/\.md$/, ""), ...data, body: content };
+      return { slug: filename.replace(/\.md$/, ""), ...data, body: content } as Record<string, unknown>;
     });
 }
 
@@ -160,14 +160,14 @@ export function getContactPage(): ContactPageData {
 }
 
 export function getPrograms(): Program[] {
-  const items = readMarkdownDir("programs") as Program[];
+  const items = readMarkdownDir("programs") as unknown as Program[];
   return items
     .filter((p) => p.active !== false)
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 export function getEvents(): Event[] {
-  const items = readMarkdownDir("events") as Event[];
+  const items = readMarkdownDir("events") as unknown as Event[];
   return items.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -184,12 +184,12 @@ export function getPastEvents(): Event[] {
 }
 
 export function getTeamMembers(): TeamMember[] {
-  const items = readMarkdownDir("team") as TeamMember[];
+  const items = readMarkdownDir("team") as unknown as TeamMember[];
   return items.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 export function getGallery(): GalleryItem[] {
-  const items = readMarkdownDir("gallery") as GalleryItem[];
+  const items = readMarkdownDir("gallery") as unknown as GalleryItem[];
   return items
     .filter((g) => g.image)
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
