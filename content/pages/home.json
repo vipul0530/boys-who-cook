@@ -1,6 +1,6 @@
 {
   "hero": {
-    "heading": "Boys Who Cook",
+    "heading": "Boy Who Cook",
     "subheading": "Young Boys Advocacy",
     "description": "Boys Who Cook is a nonprofit organization empowering young boys through the art of cooking — building confidence, independence, and life skills that last a lifetime.",
     "image": "",
@@ -32,9 +32,18 @@
     "image": ""
   },
   "stats": [
-    { "number": "100+", "label": "Boys Empowered" },
-    { "number": "50+",  "label": "Community Events" },
-    { "number": "10+",  "label": "Partner Schools" }
+    {
+      "number": "100+",
+      "label": "Boys Empowered"
+    },
+    {
+      "number": "50+",
+      "label": "Community Events"
+    },
+    {
+      "number": "10+",
+      "label": "Partner Schools"
+    }
   ],
   "programs_section": {
     "heading": "What We Do",
