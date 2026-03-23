@@ -32,8 +32,8 @@ export default function TeamPage() {
               {team.map((member) => (
                 <div key={member.slug} className="text-center">
                   <div
-                    className="relative mx-auto mb-5 w-36 h-36 rounded-full overflow-hidden shadow-md ring-4"
-                    style={{ ringColor: "var(--color-primary-100)" }}
+                    className="relative mx-auto mb-5 w-36 h-36 rounded-full overflow-hidden shadow-md"
+                    style={{ outline: "4px solid var(--color-primary-100)", outlineOffset: "2px" }}
                   >
                     {isValidUrl(member.photo) ? (
                       <Image src={member.photo!} alt={member.title} fill className="object-cover" />
