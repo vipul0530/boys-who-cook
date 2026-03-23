@@ -1,15 +1,15 @@
 {
   "site_name": "Boys Who Cook",
-  "tagline": "Empowering Boys Through the Culinary Arts",
-  "logo": "/images/logo.png",
-  "email": "boyswhocook1@gmail.com",
-  "phone": "",
-  "address": "",
+  "youtube": "",
   "facebook": "",
+  "donate_link": "",
+  "logo": "/images/uploads/screenshot-2026-03-22-at-7.24.53 pm.png",
+  "color_theme": "navy",
+  "phone": "",
+  "tagline": "Empowering Boys Through the Culinary Arts",
+  "footer_text": "© 2024 Boys Who Cook. All rights reserved.",
   "instagram": "",
   "twitter": "",
-  "youtube": "",
-  "donate_link": "",
-  "footer_text": "© 2024 Boys Who Cook. All rights reserved.",
-  "color_theme": "navy"
+  "address": "",
+  "email": "boyswhocook1@gmail.com"
 }
