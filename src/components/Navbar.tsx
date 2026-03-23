@@ -12,49 +12,56 @@ interface NavbarProps {
 }
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/",         label: "Home" },
+  { href: "/about",    label: "About" },
   { href: "/programs", label: "Programs" },
-  { href: "/events", label: "Events" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/team", label: "Our Team" },
-  { href: "/contact", label: "Contact" },
+  { href: "/events",   label: "Events" },
+  { href: "/gallery",  label: "Gallery" },
+  { href: "/team",     label: "Team" },
+  { href: "/contact",  label: "Contact" },
 ];
 
 export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const isActive = (href: string) => {
-    if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
-  };
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  // Ignore local file:// paths (e.g. if someone pasted one in the CMS)
+  const validLogo =
+    logo && !logo.startsWith("file://") ? logo : null;
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo / Site Name */}
+    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="flex items-center justify-between h-20">
+
+          {/* ── Logo & Site Name ─────────────────────────────────────── */}
           <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-            {logo ? (
+            {validLogo ? (
               <Image
-                src={logo}
+                src={validLogo}
                 alt={siteName}
-                width={140}
-                height={40}
-                className="h-10 w-auto object-contain"
+                width={52}
+                height={52}
+                className="h-12 w-12 object-contain"
               />
             ) : (
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🍳</span>
-                <span className="font-bold text-xl text-primary-700 font-heading">
-                  {siteName}
-                </span>
+              /* Fallback chef-hat placeholder while logo loads */
+              <div className="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-2xl border border-primary-100">
+                👨‍🍳
               </div>
             )}
+            <span
+              className="font-bold text-lg leading-tight"
+              style={{ color: "var(--color-primary-700)" }}
+            >
+              {siteName}
+            </span>
           </Link>
 
-          {/* Desktop Nav Links */}
+          {/* ── Desktop Nav Links ────────────────────────────────────── */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -62,40 +69,45 @@ export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
                 href={link.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-primary-600 bg-primary-50 font-semibold"
-                    : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
+                    ? "font-semibold"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
+                style={
+                  isActive(link.href)
+                    ? { color: "var(--color-primary-700)" }
+                    : {}
+                }
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Donate Button + Mobile Menu Button */}
+          {/* ── Donate + Mobile Toggle ───────────────────────────────── */}
           <div className="flex items-center gap-3">
-            {donateLink && (
+            {/* Donate button */}
+            {donateLink ? (
               <a
                 href={donateLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-full transition-colors shadow-sm"
+                className="hidden md:inline-flex btn-primary text-sm py-2 px-5"
               >
-                💛 Donate
+                Donate
               </a>
-            )}
-            {!donateLink && (
+            ) : (
               <Link
                 href="/donate"
-                className="hidden md:inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-full transition-colors shadow-sm"
+                className="hidden md:inline-flex btn-primary text-sm py-2 px-5"
               >
-                💛 Donate
+                Donate
               </Link>
             )}
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-100 transition-colors"
+              className="md:hidden p-2 rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors"
               aria-label="Toggle menu"
             >
               {menuOpen ? (
@@ -112,41 +124,42 @@ export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* ── Mobile Menu ──────────────────────────────────────────────── */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white shadow-lg">
-          <div className="px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-gray-100 bg-white">
+          <div className="px-5 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`block px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-primary-600 bg-primary-50 font-semibold"
-                    : "text-gray-700 hover:text-primary-600 hover:bg-gray-50"
+                    ? "bg-primary-50 font-semibold"
+                    : "text-gray-700 hover:bg-gray-50"
                 }`}
+                style={isActive(link.href) ? { color: "var(--color-primary-700)" } : {}}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2 pb-1">
+            <div className="pt-2">
               {donateLink ? (
                 <a
                   href={donateLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full text-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-full transition-colors"
+                  className="block w-full text-center btn-primary"
                 >
-                  💛 Donate
+                  Donate
                 </a>
               ) : (
                 <Link
                   href="/donate"
                   onClick={() => setMenuOpen(false)}
-                  className="block w-full text-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-full transition-colors"
+                  className="block w-full text-center btn-primary"
                 >
-                  💛 Donate
+                  Donate
                 </Link>
               )}
             </div>

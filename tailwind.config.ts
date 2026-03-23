@@ -9,9 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // All primary/secondary colors reference CSS variables.
-        // This means changing --color-primary-* in globals.css
-        // automatically updates every Tailwind class that uses these colors.
+        // All colors reference CSS variables so changing the theme in
+        // Admin → Site Settings updates every colour on the site instantly.
         primary: {
           DEFAULT: "var(--color-primary)",
           50:  "var(--color-primary-50)",
@@ -35,8 +34,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans:    ["Inter", "system-ui", "sans-serif"],
         heading: ["Poppins", "system-ui", "sans-serif"],
+        serif:   ["Playfair Display", "Georgia", "serif"],
       },
     },
   },

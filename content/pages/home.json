@@ -1,31 +1,40 @@
 {
   "hero": {
     "heading": "Boys Who Cook",
-    "subheading": "Boys Who Cook is a organization empowering young boys through the art of cooking test",
-    "image": "file:///Users/shaanbhavsar/Downloads/Boys%20Who%20Cook.png",
-    "cta_text": "Learn About Us",
-    "cta_link": "/about",
-    "cta_secondary_text": "Get Involved",
-    "cta_secondary_link": "/contact"
+    "subheading": "Young Boys Advocacy",
+    "description": "Boys Who Cook is a nonprofit organization empowering young boys through the art of cooking — building confidence, independence, and life skills that last a lifetime.",
+    "image": "",
+    "cta_text": "Join Us",
+    "cta_link": "/contact",
+    "cta_secondary_text": "Learn More",
+    "cta_secondary_link": "/about"
   },
+  "quotes": [
+    {
+      "source": "National Center for Education Statistics",
+      "role": "",
+      "text": "Less than 20% of boys report cooking at home regularly, compared to 50% of girls."
+    },
+    {
+      "source": "Jamie Oliver",
+      "role": "Chef and Educator",
+      "text": "Cooking is a life skill, not a gender skill. Boys who don't learn it lose independence and confidence."
+    },
+    {
+      "source": "Anonymous",
+      "role": "Research Based",
+      "text": "If boys don't cook, they'll only learn life skills later, or not at all. Change starts in the kitchen."
+    }
+  ],
   "mission": {
     "heading": "Our Mission",
-    "text": "Our mission is to empower young boys by challenging gender stereotypes around cooking and life skills, building a movement that creates confidence, independence, and equality for the next generation of young boys through cooking. ",
+    "text": "Our mission is to empower young boys by challenging gender stereotypes around cooking and life skills, building a movement that creates confidence, independence, and equality for the next generation of young boys through cooking.",
     "image": ""
   },
   "stats": [
-    {
-      "number": "100+",
-      "label": "Boys Empowered"
-    },
-    {
-      "number": "50+",
-      "label": "Community Events"
-    },
-    {
-      "number": "10+",
-      "label": "Partner Schools"
-    }
+    { "number": "100+", "label": "Boys Empowered" },
+    { "number": "50+",  "label": "Community Events" },
+    { "number": "10+",  "label": "Partner Schools" }
   ],
   "programs_section": {
     "heading": "What We Do",

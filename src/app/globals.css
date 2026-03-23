@@ -1,17 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── COLOR THEMES ─────────────────────────────────────────────────────────────
-   Each .theme-* class sets CSS variables that flow through every Tailwind
-   `primary-*` and `secondary-*` color class automatically.
-   Shaan picks a theme in the admin under ⚙️ Site Settings → Color Theme.
-   ──────────────────────────────────────────────────────────────────────────── */
+/* ─── COLOR THEMES ──────────────────────────────────────────────────────────
+   Shaan picks a theme in Admin → ⚙️ Site Settings → Color Theme.
+   ───────────────────────────────────────────────────────────────────────── */
 
-/* 🟠 Warm Orange (default) */
+/* 🔷 Navy Blue (default — matches the Boys Who Cook brand) */
 :root,
+.theme-navy {
+  --color-primary:     #1B3A5C;
+  --color-primary-50:  #EEF3FA;
+  --color-primary-100: #D4E2F0;
+  --color-primary-200: #A9C5E1;
+  --color-primary-300: #7EA8D2;
+  --color-primary-400: #538BC3;
+  --color-primary-500: #2E6EB4;
+  --color-primary-600: #255A99;
+  --color-primary-700: #1B3A5C;
+  --color-primary-800: #122640;
+  --color-primary-900: #0A1624;
+
+  --color-secondary:     #2C7A7B;
+  --color-secondary-50:  #E6F4F4;
+  --color-secondary-100: #B3DCDD;
+  --color-secondary-200: #80C4C5;
+  --color-secondary-600: #2C7A7B;
+  --color-secondary-700: #216063;
+
+  --hero-gradient: linear-gradient(135deg, rgba(27,58,92,0.88) 0%, rgba(18,38,64,0.93) 100%);
+  --page-header-from: #1B3A5C;
+  --page-header-to:   #0A1624;
+  --quote-border:     #2C7A7B;
+  --quote-mark:       #1B3A5C;
+}
+
+/* 🟠 Warm Orange */
 .theme-orange {
   --color-primary:     #E85D04;
   --color-primary-50:  #FFF7ED;
@@ -32,9 +58,11 @@
   --color-secondary-600: #16A34A;
   --color-secondary-700: #15803D;
 
-  --hero-gradient: linear-gradient(135deg, rgba(234,88,12,0.85) 0%, rgba(194,65,12,0.90) 50%, rgba(124,45,18,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(234,88,12,0.85) 0%, rgba(124,45,18,0.95) 100%);
   --page-header-from: #EA580C;
   --page-header-to:   #9A3412;
+  --quote-border:     #EA580C;
+  --quote-mark:       #C2410C;
 }
 
 /* 🔵 Ocean Blue */
@@ -58,9 +86,11 @@
   --color-secondary-600: #0891B2;
   --color-secondary-700: #0E7490;
 
-  --hero-gradient: linear-gradient(135deg, rgba(37,99,235,0.85) 0%, rgba(29,78,216,0.90) 50%, rgba(30,58,138,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(37,99,235,0.85) 0%, rgba(30,58,138,0.95) 100%);
   --page-header-from: #2563EB;
   --page-header-to:   #1E3A8A;
+  --quote-border:     #0891B2;
+  --quote-mark:       #1D4ED8;
 }
 
 /* 🟢 Forest Green */
@@ -84,9 +114,11 @@
   --color-secondary-600: #D97706;
   --color-secondary-700: #B45309;
 
-  --hero-gradient: linear-gradient(135deg, rgba(22,163,74,0.85) 0%, rgba(21,128,61,0.90) 50%, rgba(20,83,45,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(22,163,74,0.85) 0%, rgba(20,83,45,0.95) 100%);
   --page-header-from: #16A34A;
   --page-header-to:   #14532D;
+  --quote-border:     #D97706;
+  --quote-mark:       #15803D;
 }
 
 /* 🟣 Royal Purple */
@@ -110,9 +142,11 @@
   --color-secondary-600: #DB2777;
   --color-secondary-700: #BE185D;
 
-  --hero-gradient: linear-gradient(135deg, rgba(124,58,237,0.85) 0%, rgba(109,40,217,0.90) 50%, rgba(76,29,149,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(124,58,237,0.85) 0%, rgba(76,29,149,0.95) 100%);
   --page-header-from: #7C3AED;
   --page-header-to:   #4C1D95;
+  --quote-border:     #DB2777;
+  --quote-mark:       #7C3AED;
 }
 
 /* 🔴 Cherry Red */
@@ -136,9 +170,11 @@
   --color-secondary-600: #D97706;
   --color-secondary-700: #B45309;
 
-  --hero-gradient: linear-gradient(135deg, rgba(220,38,38,0.85) 0%, rgba(185,28,28,0.90) 50%, rgba(127,29,29,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(220,38,38,0.85) 0%, rgba(127,29,29,0.95) 100%);
   --page-header-from: #DC2626;
   --page-header-to:   #7F1D1D;
+  --quote-border:     #D97706;
+  --quote-mark:       #DC2626;
 }
 
 /* 🩷 Rose Pink */
@@ -162,69 +198,91 @@
   --color-secondary-600: #7C3AED;
   --color-secondary-700: #6D28D9;
 
-  --hero-gradient: linear-gradient(135deg, rgba(225,29,72,0.85) 0%, rgba(190,18,60,0.90) 50%, rgba(136,19,55,0.95) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(225,29,72,0.85) 0%, rgba(136,19,55,0.95) 100%);
   --page-header-from: #E11D48;
   --page-header-to:   #881337;
+  --quote-border:     #7C3AED;
+  --quote-mark:       #E11D48;
 }
 
-/* ─── BASE STYLES ──────────────────────────────────────────────────────────── */
+/* ─── BASE ──────────────────────────────────────────────────────────────── */
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
-    @apply text-gray-800 bg-white;
+    @apply text-gray-800 bg-white antialiased;
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
 }
 
+/* ─── COMPONENTS ────────────────────────────────────────────────────────── */
+
 @layer components {
-  /* Page header — uses CSS variable set by active theme */
+  /* Page banner at top of inner pages */
   .page-header {
     background: linear-gradient(135deg, var(--page-header-from), var(--page-header-to));
     @apply text-white py-16 px-4 text-center;
   }
 
   .section      { @apply py-16 px-4; }
-  .section-alt  { @apply py-16 px-4; background-color: var(--color-primary-50); }
+  .section-alt  { @apply py-16 px-4 bg-slate-50; }
   .container    { @apply max-w-7xl mx-auto; }
 
   .card {
-    @apply bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300;
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100
+           overflow-hidden hover:shadow-md transition-shadow duration-300;
   }
 
+  /* Filled primary button */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-white font-semibold rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5;
-    background-color: var(--color-primary-600);
+    @apply inline-flex items-center justify-center px-7 py-3
+           text-white font-semibold rounded-full
+           transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5;
+    background-color: var(--color-primary-700);
   }
-  .btn-primary:hover { background-color: var(--color-primary-700); }
+  .btn-primary:hover { background-color: var(--color-primary-800); }
 
+  /* Outline button (white bg) */
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 font-semibold rounded-full border-2 transition-all duration-200;
+    @apply inline-flex items-center justify-center px-7 py-3
+           bg-white font-semibold rounded-full border-2
+           transition-all duration-200 hover:bg-gray-50;
     color: var(--color-primary-700);
-    border-color: var(--color-primary-300);
+    border-color: var(--color-primary-700);
   }
 
+  /* Outline button on dark bg */
   .btn-outline-white {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent hover:bg-white/10 text-white font-semibold rounded-full border-2 border-white transition-all duration-200;
+    @apply inline-flex items-center justify-center px-7 py-3
+           bg-transparent text-white font-semibold rounded-full
+           border-2 border-white transition-all duration-200 hover:bg-white/10;
   }
 
+  /* Prose markdown */
   .prose-content {
     @apply prose prose-gray max-w-none;
   }
 }
 
-/* Hero overlay — uses the theme's gradient variable */
+/* ─── HERO ──────────────────────────────────────────────────────────────── */
 .hero-overlay {
   background: var(--hero-gradient);
 }
 
-/* Gallery grid hover effect */
+/* ─── QUOTE SECTION ─────────────────────────────────────────────────────── */
+.quote-border {
+  border-color: var(--quote-border);
+}
+.quote-mark {
+  color: var(--quote-mark);
+}
+
+/* ─── GALLERY ───────────────────────────────────────────────────────────── */
 .gallery-item:hover .gallery-overlay { opacity: 1; }
 .gallery-overlay { @apply opacity-0 transition-opacity duration-300; }

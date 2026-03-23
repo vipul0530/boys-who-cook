@@ -41,7 +41,8 @@ collections:
             default: "orange"
             hint: "Pick a color theme for the whole website. Changes take ~2 minutes to appear."
             options:
-              - { label: "🟠 Warm Orange (default)", value: "orange" }
+              - { label: "🔷 Navy Blue (default)", value: "navy" }
+              - { label: "🟠 Warm Orange", value: "orange" }
               - { label: "🔵 Ocean Blue", value: "blue" }
               - { label: "🟢 Forest Green", value: "green" }
               - { label: "🟣 Royal Purple", value: "purple" }
@@ -60,17 +61,27 @@ collections:
             name: "hero"
             widget: "object"
             fields:
-              - { label: "Main Heading", name: "heading", widget: "string" }
-              - { label: "Subheading", name: "subheading", widget: "string" }
-              - label: "Background Image"
+              - { label: "Big Heading (e.g. Boys Who Cook)", name: "heading", widget: "string" }
+              - { label: "Small Label Above Heading (e.g. Young Boys Advocacy)", name: "subheading", widget: "string" }
+              - { label: "Description Text", name: "description", widget: "text", required: false }
+              - label: "Hero Photo (right side)"
                 name: "image"
                 widget: "image"
                 required: false
-                hint: "Recommended: wide landscape photo (1920x800px)"
+                hint: "Tall portrait or square photo works best (e.g. someone cooking)"
               - { label: "Primary Button Text", name: "cta_text", widget: "string" }
               - { label: "Primary Button Link", name: "cta_link", widget: "string" }
               - { label: "Secondary Button Text", name: "cta_secondary_text", widget: "string", required: false }
               - { label: "Secondary Button Link", name: "cta_secondary_link", widget: "string", required: false }
+
+          - label: "Quotes / Stats Section"
+            name: "quotes"
+            widget: "list"
+            hint: "Three quotes or statistics shown below the hero. Edit text, source name and role."
+            fields:
+              - { label: "Source Name", name: "source", widget: "string" }
+              - { label: "Role / Title (optional)", name: "role", widget: "string", required: false }
+              - { label: "Quote Text", name: "text", widget: "text" }
 
           - label: "Mission Section"
             name: "mission"

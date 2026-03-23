@@ -26,12 +26,14 @@ export interface HomePageData {
   hero: {
     heading: string;
     subheading: string;
+    description?: string;
     image: string;
     cta_text: string;
     cta_link: string;
     cta_secondary_text?: string;
     cta_secondary_link?: string;
   };
+  quotes: Array<{ source: string; role?: string; text: string }>;
   mission: {
     heading: string;
     text: string;

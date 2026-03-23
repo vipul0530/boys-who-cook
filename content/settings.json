@@ -1,7 +1,7 @@
 {
   "site_name": "Boys Who Cook",
   "tagline": "Empowering Boys Through the Culinary Arts",
-  "logo": "",
+  "logo": "/images/logo.png",
   "email": "boyswhocook1@gmail.com",
   "phone": "",
   "address": "",
@@ -11,5 +11,5 @@
   "youtube": "",
   "donate_link": "",
   "footer_text": "© 2024 Boys Who Cook. All rights reserved.",
-  "color_theme": "orange"
+  "color_theme": "navy"
 }
