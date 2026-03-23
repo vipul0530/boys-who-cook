@@ -35,6 +35,18 @@ collections:
           - { label: "YouTube URL", name: "youtube", widget: "string", required: false }
           - { label: "Donate Button Link", name: "donate_link", widget: "string", required: false, hint: "Link to your donation page (e.g. PayPal, GoFundMe)" }
           - { label: "Footer Copyright Text", name: "footer_text", widget: "string", default: "© 2024 Boys Who Cook. All rights reserved." }
+          - label: "🎨 Site Color Theme"
+            name: "color_theme"
+            widget: "select"
+            default: "orange"
+            hint: "Pick a color theme for the whole website. Changes take ~2 minutes to appear."
+            options:
+              - { label: "🟠 Warm Orange (default)", value: "orange" }
+              - { label: "🔵 Ocean Blue", value: "blue" }
+              - { label: "🟢 Forest Green", value: "green" }
+              - { label: "🟣 Royal Purple", value: "purple" }
+              - { label: "🔴 Cherry Red", value: "red" }
+              - { label: "🩷 Rose Pink", value: "pink" }
 
   # ─── HOME PAGE ────────────────────────────────────────────────────────────
   - name: "home_page"

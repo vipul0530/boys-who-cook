@@ -19,6 +19,7 @@ export interface SiteSettings {
   youtube: string;
   donate_link: string;
   footer_text: string;
+  color_theme?: string;
 }
 
 export interface HomePageData {

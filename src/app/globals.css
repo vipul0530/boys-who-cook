@@ -4,6 +4,171 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── COLOR THEMES ─────────────────────────────────────────────────────────────
+   Each .theme-* class sets CSS variables that flow through every Tailwind
+   `primary-*` and `secondary-*` color class automatically.
+   Shaan picks a theme in the admin under ⚙️ Site Settings → Color Theme.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* 🟠 Warm Orange (default) */
+:root,
+.theme-orange {
+  --color-primary:     #E85D04;
+  --color-primary-50:  #FFF7ED;
+  --color-primary-100: #FFEDD5;
+  --color-primary-200: #FED7AA;
+  --color-primary-300: #FDBA74;
+  --color-primary-400: #FB923C;
+  --color-primary-500: #F97316;
+  --color-primary-600: #EA580C;
+  --color-primary-700: #C2410C;
+  --color-primary-800: #9A3412;
+  --color-primary-900: #7C2D12;
+
+  --color-secondary:     #16A34A;
+  --color-secondary-50:  #F0FDF4;
+  --color-secondary-100: #DCFCE7;
+  --color-secondary-200: #BBF7D0;
+  --color-secondary-600: #16A34A;
+  --color-secondary-700: #15803D;
+
+  --hero-gradient: linear-gradient(135deg, rgba(234,88,12,0.85) 0%, rgba(194,65,12,0.90) 50%, rgba(124,45,18,0.95) 100%);
+  --page-header-from: #EA580C;
+  --page-header-to:   #9A3412;
+}
+
+/* 🔵 Ocean Blue */
+.theme-blue {
+  --color-primary:     #1D4ED8;
+  --color-primary-50:  #EFF6FF;
+  --color-primary-100: #DBEAFE;
+  --color-primary-200: #BFDBFE;
+  --color-primary-300: #93C5FD;
+  --color-primary-400: #60A5FA;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-800: #1E40AF;
+  --color-primary-900: #1E3A8A;
+
+  --color-secondary:     #0891B2;
+  --color-secondary-50:  #ECFEFF;
+  --color-secondary-100: #CFFAFE;
+  --color-secondary-200: #A5F3FC;
+  --color-secondary-600: #0891B2;
+  --color-secondary-700: #0E7490;
+
+  --hero-gradient: linear-gradient(135deg, rgba(37,99,235,0.85) 0%, rgba(29,78,216,0.90) 50%, rgba(30,58,138,0.95) 100%);
+  --page-header-from: #2563EB;
+  --page-header-to:   #1E3A8A;
+}
+
+/* 🟢 Forest Green */
+.theme-green {
+  --color-primary:     #15803D;
+  --color-primary-50:  #F0FDF4;
+  --color-primary-100: #DCFCE7;
+  --color-primary-200: #BBF7D0;
+  --color-primary-300: #86EFAC;
+  --color-primary-400: #4ADE80;
+  --color-primary-500: #22C55E;
+  --color-primary-600: #16A34A;
+  --color-primary-700: #15803D;
+  --color-primary-800: #166534;
+  --color-primary-900: #14532D;
+
+  --color-secondary:     #B45309;
+  --color-secondary-50:  #FFFBEB;
+  --color-secondary-100: #FEF3C7;
+  --color-secondary-200: #FDE68A;
+  --color-secondary-600: #D97706;
+  --color-secondary-700: #B45309;
+
+  --hero-gradient: linear-gradient(135deg, rgba(22,163,74,0.85) 0%, rgba(21,128,61,0.90) 50%, rgba(20,83,45,0.95) 100%);
+  --page-header-from: #16A34A;
+  --page-header-to:   #14532D;
+}
+
+/* 🟣 Royal Purple */
+.theme-purple {
+  --color-primary:     #7C3AED;
+  --color-primary-50:  #F5F3FF;
+  --color-primary-100: #EDE9FE;
+  --color-primary-200: #DDD6FE;
+  --color-primary-300: #C4B5FD;
+  --color-primary-400: #A78BFA;
+  --color-primary-500: #8B5CF6;
+  --color-primary-600: #7C3AED;
+  --color-primary-700: #6D28D9;
+  --color-primary-800: #5B21B6;
+  --color-primary-900: #4C1D95;
+
+  --color-secondary:     #DB2777;
+  --color-secondary-50:  #FDF2F8;
+  --color-secondary-100: #FCE7F3;
+  --color-secondary-200: #FBCFE8;
+  --color-secondary-600: #DB2777;
+  --color-secondary-700: #BE185D;
+
+  --hero-gradient: linear-gradient(135deg, rgba(124,58,237,0.85) 0%, rgba(109,40,217,0.90) 50%, rgba(76,29,149,0.95) 100%);
+  --page-header-from: #7C3AED;
+  --page-header-to:   #4C1D95;
+}
+
+/* 🔴 Cherry Red */
+.theme-red {
+  --color-primary:     #DC2626;
+  --color-primary-50:  #FEF2F2;
+  --color-primary-100: #FEE2E2;
+  --color-primary-200: #FECACA;
+  --color-primary-300: #FCA5A5;
+  --color-primary-400: #F87171;
+  --color-primary-500: #EF4444;
+  --color-primary-600: #DC2626;
+  --color-primary-700: #B91C1C;
+  --color-primary-800: #991B1B;
+  --color-primary-900: #7F1D1D;
+
+  --color-secondary:     #D97706;
+  --color-secondary-50:  #FFFBEB;
+  --color-secondary-100: #FEF3C7;
+  --color-secondary-200: #FDE68A;
+  --color-secondary-600: #D97706;
+  --color-secondary-700: #B45309;
+
+  --hero-gradient: linear-gradient(135deg, rgba(220,38,38,0.85) 0%, rgba(185,28,28,0.90) 50%, rgba(127,29,29,0.95) 100%);
+  --page-header-from: #DC2626;
+  --page-header-to:   #7F1D1D;
+}
+
+/* 🩷 Rose Pink */
+.theme-pink {
+  --color-primary:     #E11D48;
+  --color-primary-50:  #FFF1F2;
+  --color-primary-100: #FFE4E6;
+  --color-primary-200: #FECDD3;
+  --color-primary-300: #FDA4AF;
+  --color-primary-400: #FB7185;
+  --color-primary-500: #F43F5E;
+  --color-primary-600: #E11D48;
+  --color-primary-700: #BE123C;
+  --color-primary-800: #9F1239;
+  --color-primary-900: #881337;
+
+  --color-secondary:     #7C3AED;
+  --color-secondary-50:  #F5F3FF;
+  --color-secondary-100: #EDE9FE;
+  --color-secondary-200: #DDD6FE;
+  --color-secondary-600: #7C3AED;
+  --color-secondary-700: #6D28D9;
+
+  --hero-gradient: linear-gradient(135deg, rgba(225,29,72,0.85) 0%, rgba(190,18,60,0.90) 50%, rgba(136,19,55,0.95) 100%);
+  --page-header-from: #E11D48;
+  --page-header-to:   #881337;
+}
+
+/* ─── BASE STYLES ──────────────────────────────────────────────────────────── */
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -20,68 +185,46 @@
 }
 
 @layer components {
-  /* Page header banner */
+  /* Page header — uses CSS variable set by active theme */
   .page-header {
-    @apply bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16 px-4 text-center;
+    background: linear-gradient(135deg, var(--page-header-from), var(--page-header-to));
+    @apply text-white py-16 px-4 text-center;
   }
 
-  /* Section spacing */
-  .section {
-    @apply py-16 px-4;
-  }
+  .section      { @apply py-16 px-4; }
+  .section-alt  { @apply py-16 px-4; background-color: var(--color-primary-50); }
+  .container    { @apply max-w-7xl mx-auto; }
 
-  .section-alt {
-    @apply py-16 px-4 bg-orange-50;
-  }
-
-  .container {
-    @apply max-w-7xl mx-auto;
-  }
-
-  /* Cards */
   .card {
     @apply bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300;
   }
 
-  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center px-6 py-3 text-white font-semibold rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    background-color: var(--color-primary-600);
   }
+  .btn-primary:hover { background-color: var(--color-primary-700); }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-primary-700 font-semibold rounded-full border-2 border-primary-300 transition-all duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 font-semibold rounded-full border-2 transition-all duration-200;
+    color: var(--color-primary-700);
+    border-color: var(--color-primary-300);
   }
 
   .btn-outline-white {
     @apply inline-flex items-center justify-center px-6 py-3 bg-transparent hover:bg-white/10 text-white font-semibold rounded-full border-2 border-white transition-all duration-200;
   }
 
-  /* Prose markdown content */
   .prose-content {
-    @apply prose prose-gray max-w-none prose-headings:font-heading prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline;
+    @apply prose prose-gray max-w-none;
   }
 }
 
-/* Hero gradient overlay */
+/* Hero overlay — uses the theme's gradient variable */
 .hero-overlay {
-  background: linear-gradient(
-    135deg,
-    rgba(234, 88, 12, 0.85) 0%,
-    rgba(194, 65, 12, 0.90) 50%,
-    rgba(124, 45, 18, 0.95) 100%
-  );
-}
-
-/* Smooth section transitions */
-section {
-  transition: background-color 0.3s ease;
+  background: var(--hero-gradient);
 }
 
 /* Gallery grid hover effect */
-.gallery-item:hover .gallery-overlay {
-  opacity: 1;
-}
-
-.gallery-overlay {
-  @apply opacity-0 transition-opacity duration-300;
-}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-overlay { @apply opacity-0 transition-opacity duration-300; }

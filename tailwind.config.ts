@@ -9,31 +9,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // All primary/secondary colors reference CSS variables.
+        // This means changing --color-primary-* in globals.css
+        // automatically updates every Tailwind class that uses these colors.
         primary: {
-          DEFAULT: "#E85D04",
-          50: "#FFF7ED",
-          100: "#FFEDD5",
-          200: "#FED7AA",
-          300: "#FDBA74",
-          400: "#FB923C",
-          500: "#F97316",
-          600: "#EA580C",
-          700: "#C2410C",
-          800: "#9A3412",
-          900: "#7C2D12",
+          DEFAULT: "var(--color-primary)",
+          50:  "var(--color-primary-50)",
+          100: "var(--color-primary-100)",
+          200: "var(--color-primary-200)",
+          300: "var(--color-primary-300)",
+          400: "var(--color-primary-400)",
+          500: "var(--color-primary-500)",
+          600: "var(--color-primary-600)",
+          700: "var(--color-primary-700)",
+          800: "var(--color-primary-800)",
+          900: "var(--color-primary-900)",
         },
         secondary: {
-          DEFAULT: "#16A34A",
-          50: "#F0FDF4",
-          100: "#DCFCE7",
-          200: "#BBF7D0",
-          300: "#86EFAC",
-          400: "#4ADE80",
-          500: "#22C55E",
-          600: "#16A34A",
-          700: "#15803D",
-          800: "#166534",
-          900: "#14532D",
+          DEFAULT: "var(--color-secondary)",
+          50:  "var(--color-secondary-50)",
+          100: "var(--color-secondary-100)",
+          200: "var(--color-secondary-200)",
+          600: "var(--color-secondary-600)",
+          700: "var(--color-secondary-700)",
         },
       },
       fontFamily: {

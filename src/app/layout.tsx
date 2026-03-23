@@ -24,7 +24,7 @@ export default function RootLayout({
   const settings = getSettings();
 
   return (
-    <html lang="en">
+    <html lang="en" className={`theme-${settings.color_theme ?? "orange"}`}>
       <head>
         {/* Netlify Identity Widget — required for CMS admin login */}
         <script
