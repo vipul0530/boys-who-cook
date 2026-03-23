@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "heading": "Building Better Boys, One Recipe at a Time",
+    "subheading": "Boys Who Cook is a nonprofit organization empowering young men through culinary education, community, and confidence.",
+    "image": "",
+    "cta_text": "Learn About Us",
+    "cta_link": "/about",
+    "cta_secondary_text": "Get Involved",
+    "cta_secondary_link": "/contact"
+  },
+  "mission": {
+    "heading": "Our Mission",
+    "text": "At Boys Who Cook, we believe that the kitchen is one of the most powerful classrooms. Through hands-on culinary experiences, we teach young men essential life skills, build their self-confidence, and foster a sense of community and responsibility. Cooking is more than preparing food — it's about empowerment, creativity, and connection.",
+    "image": ""
+  },
+  "stats": [
+    { "number": "100+", "label": "Boys Empowered" },
+    { "number": "50+", "label": "Community Events" },
+    { "number": "10+", "label": "Partner Schools" }
+  ],
+  "programs_section": {
+    "heading": "What We Do",
+    "subheading": "From beginner cooking classes to community cookouts, our programs give boys the tools to succeed in the kitchen and in life."
+  },
+  "cta_section": {
+    "heading": "Help Us Make a Difference",
+    "text": "Your support helps us provide cooking supplies, ingredients, and mentorship to young men in our community. Every dollar makes an impact.",
+    "button_text": "Donate Today",
+    "button_link": "/donate"
+  }
+}

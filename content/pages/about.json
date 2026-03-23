@@ -1,0 +1,37 @@
+{
+  "title": "About Boys Who Cook",
+  "subtitle": "Learn about our story, mission, and the team behind our movement.",
+  "story": {
+    "heading": "Our Story",
+    "text": "Boys Who Cook was founded with a simple but powerful idea: that teaching boys to cook can change their lives.\n\nWe started as a small community program with just a handful of participants and a shared kitchen. What began as an after-school activity quickly grew into something much bigger — a movement dedicated to empowering young men through culinary education.\n\nToday, Boys Who Cook reaches boys across the community through classes, events, and outreach programs. We believe that when a boy learns to cook, he learns much more than recipes — he learns patience, creativity, teamwork, and self-reliance.\n\nOur founder, Shaan, started this organization because he saw a need in his community and decided to do something about it. At just 14 years old, he believed that every boy deserves the opportunity to discover the power of cooking.",
+    "image": ""
+  },
+  "mission_vision": {
+    "mission_heading": "Our Mission",
+    "mission_text": "To empower boys through culinary education by providing hands-on cooking experiences that build confidence, life skills, and community.",
+    "vision_heading": "Our Vision",
+    "vision_text": "A world where every young man has the skills, confidence, and support to nourish himself, his family, and his community."
+  },
+  "values": [
+    {
+      "title": "Empowerment",
+      "description": "We believe in the power of every young man to grow, lead, and make a difference through the skills they develop in the kitchen.",
+      "icon": "💪"
+    },
+    {
+      "title": "Community",
+      "description": "Cooking brings people together. We build strong, supportive communities where boys can learn, share, and thrive.",
+      "icon": "🤝"
+    },
+    {
+      "title": "Creativity",
+      "description": "The kitchen is a place for creativity and self-expression. We encourage every participant to explore new flavors and ideas.",
+      "icon": "🍳"
+    },
+    {
+      "title": "Service",
+      "description": "We teach boys not just to cook for themselves, but to use their skills to serve and give back to their communities.",
+      "icon": "🌱"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:boyswhocook1.wixsite.com)",
+      "WebSearch"
+    ]
+  }
+}

@@ -1,0 +1,267 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where media files (images) will be uploaded
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Show a live preview of the site in the CMS
+site_url: https://boyswhocook.org
+display_url: https://boyswhocook.org
+
+collections:
+  # ─── SITE SETTINGS ────────────────────────────────────────────────────────
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    files:
+      - name: "general"
+        label: "General Settings"
+        file: "content/settings.json"
+        fields:
+          - { label: "Site Name", name: "site_name", widget: "string", default: "Boys Who Cook" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - label: "Logo"
+            name: "logo"
+            widget: "image"
+            required: false
+            hint: "Upload your logo image (recommended size: 200x60px)"
+          - { label: "Contact Email", name: "email", widget: "string" }
+          - { label: "Phone Number", name: "phone", widget: "string", required: false }
+          - { label: "Address", name: "address", widget: "text", required: false }
+          - { label: "Facebook URL", name: "facebook", widget: "string", required: false }
+          - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
+          - { label: "Twitter / X URL", name: "twitter", widget: "string", required: false }
+          - { label: "YouTube URL", name: "youtube", widget: "string", required: false }
+          - { label: "Donate Button Link", name: "donate_link", widget: "string", required: false, hint: "Link to your donation page (e.g. PayPal, GoFundMe)" }
+          - { label: "Footer Copyright Text", name: "footer_text", widget: "string", default: "© 2024 Boys Who Cook. All rights reserved." }
+
+  # ─── HOME PAGE ────────────────────────────────────────────────────────────
+  - name: "home_page"
+    label: "🏠 Home Page"
+    files:
+      - name: "home"
+        label: "Home Page Content"
+        file: "content/pages/home.json"
+        fields:
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Main Heading", name: "heading", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "string" }
+              - label: "Background Image"
+                name: "image"
+                widget: "image"
+                required: false
+                hint: "Recommended: wide landscape photo (1920x800px)"
+              - { label: "Primary Button Text", name: "cta_text", widget: "string" }
+              - { label: "Primary Button Link", name: "cta_link", widget: "string" }
+              - { label: "Secondary Button Text", name: "cta_secondary_text", widget: "string", required: false }
+              - { label: "Secondary Button Link", name: "cta_secondary_link", widget: "string", required: false }
+
+          - label: "Mission Section"
+            name: "mission"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Text", name: "text", widget: "text" }
+              - label: "Image"
+                name: "image"
+                widget: "image"
+                required: false
+
+          - label: "Impact Stats"
+            name: "stats"
+            widget: "list"
+            hint: "These are the big numbers shown on the home page"
+            fields:
+              - { label: "Number / Value (e.g. 100+)", name: "number", widget: "string" }
+              - { label: "Label (e.g. Boys Served)", name: "label", widget: "string" }
+
+          - label: "Programs Preview Section"
+            name: "programs_section"
+            widget: "object"
+            fields:
+              - { label: "Section Heading", name: "heading", widget: "string" }
+              - { label: "Section Subheading", name: "subheading", widget: "string", required: false }
+
+          - label: "Call to Action Section"
+            name: "cta_section"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Text", name: "text", widget: "text" }
+              - { label: "Button Text", name: "button_text", widget: "string" }
+              - { label: "Button Link", name: "button_link", widget: "string" }
+
+  # ─── ABOUT PAGE ───────────────────────────────────────────────────────────
+  - name: "about_page"
+    label: "ℹ️ About Page"
+    files:
+      - name: "about"
+        label: "About Page Content"
+        file: "content/pages/about.json"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Page Subtitle", name: "subtitle", widget: "string" }
+
+          - label: "Our Story Section"
+            name: "story"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Text", name: "text", widget: "markdown" }
+              - label: "Image"
+                name: "image"
+                widget: "image"
+                required: false
+
+          - label: "Mission & Vision"
+            name: "mission_vision"
+            widget: "object"
+            fields:
+              - { label: "Mission Heading", name: "mission_heading", widget: "string" }
+              - { label: "Mission Text", name: "mission_text", widget: "text" }
+              - { label: "Vision Heading", name: "vision_heading", widget: "string" }
+              - { label: "Vision Text", name: "vision_text", widget: "text" }
+
+          - label: "Core Values"
+            name: "values"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Icon (emoji)"
+                name: "icon"
+                widget: "string"
+                hint: "Use a single emoji like 🍳 or 🌱"
+
+  # ─── PROGRAMS ─────────────────────────────────────────────────────────────
+  - name: "programs"
+    label: "📚 Programs"
+    folder: "content/programs"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Program Name", name: "title", widget: "string" }
+      - { label: "Short Description (shown on cards)", name: "excerpt", widget: "text" }
+      - label: "Program Image"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Recommended: 800x500px"
+      - { label: "Full Description", name: "body", widget: "markdown" }
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 1
+        value_type: "int"
+        hint: "Lower numbers appear first"
+      - label: "Active / Visible"
+        name: "active"
+        widget: "boolean"
+        default: true
+
+  # ─── EVENTS ───────────────────────────────────────────────────────────────
+  - name: "events"
+    label: "📅 Events"
+    folder: "content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Event Title", name: "title", widget: "string" }
+      - { label: "Date & Time", name: "date", widget: "datetime" }
+      - { label: "End Date & Time", name: "end_date", widget: "datetime", required: false }
+      - { label: "Location", name: "location", widget: "string" }
+      - label: "Event Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - { label: "Short Description", name: "excerpt", widget: "text" }
+      - { label: "Full Description", name: "body", widget: "markdown" }
+      - label: "Registration Link"
+        name: "registration_link"
+        widget: "string"
+        required: false
+        hint: "Link to sign up (optional)"
+
+  # ─── GALLERY ──────────────────────────────────────────────────────────────
+  - name: "gallery"
+    label: "📷 Gallery"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Caption / Title", name: "title", widget: "string" }
+      - label: "Photo"
+        name: "image"
+        widget: "image"
+        hint: "Upload your photo here"
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 1
+        value_type: "int"
+
+  # ─── TEAM ─────────────────────────────────────────────────────────────────
+  - name: "team"
+    label: "👥 Our Team"
+    folder: "content/team"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Full Name", name: "title", widget: "string" }
+      - { label: "Role / Title", name: "role", widget: "string" }
+      - label: "Photo"
+        name: "photo"
+        widget: "image"
+        required: false
+        hint: "Recommended: square photo (400x400px)"
+      - { label: "Bio", name: "bio", widget: "text" }
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 1
+        value_type: "int"
+
+  # ─── DONATE PAGE ──────────────────────────────────────────────────────────
+  - name: "donate_page"
+    label: "💛 Donate Page"
+    files:
+      - name: "donate"
+        label: "Donate Page Content"
+        file: "content/pages/donate.json"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Page Subtitle", name: "subtitle", widget: "string" }
+          - label: "Page Image"
+            name: "image"
+            widget: "image"
+            required: false
+          - { label: "Why Donate Heading", name: "why_heading", widget: "string" }
+          - { label: "Why Donate Text", name: "why_text", widget: "markdown" }
+          - label: "Impact Items"
+            name: "impact"
+            widget: "list"
+            hint: "E.g. $25 provides cooking supplies for one student"
+            fields:
+              - { label: "Amount", name: "amount", widget: "string" }
+              - { label: "Impact Description", name: "description", widget: "string" }
+          - { label: "Donate Button Text", name: "button_text", widget: "string", default: "Donate Now" }
+          - { label: "Donate Button Link (PayPal, GoFundMe, etc.)", name: "button_link", widget: "string" }
+
+  # ─── CONTACT PAGE ─────────────────────────────────────────────────────────
+  - name: "contact_page"
+    label: "✉️ Contact Page"
+    files:
+      - name: "contact"
+        label: "Contact Page Content"
+        file: "content/pages/contact.json"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Page Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Contact Email", name: "email", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string", required: false }
+          - { label: "Address", name: "address", widget: "text", required: false }
+          - { label: "Form Success Message", name: "success_message", widget: "string", default: "Thank you! We'll be in touch soon." }
