@@ -5,27 +5,20 @@
 [build.environment]
   NODE_VERSION = "20"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# Note: Do NOT add @netlify/plugin-nextjs here — that plugin is for SSR
+# Next.js only and breaks static exports.
 
-# Redirect all requests to static files (Next.js static export)
+# Serve the admin SPA correctly
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
 
+# Fallback: unknown paths → Next.js 404 page
 [[redirects]]
   from = "/*"
-  to = "/:splat/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-
-# Identity widget redirect
-[[redirects]]
-  from = "/api/identity/*"
-  to = "/.netlify/identity/:splat"
-  status = 200
-  force = true
+  to = "/404/index.html"
+  status = 404
 
 [[headers]]
   for = "/admin/*"
