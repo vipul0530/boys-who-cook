@@ -1,7 +1,7 @@
 ---
 title: Boys Who Cook Workshop
 excerpt: "Boys come together to cook meals together with guest chef. "
-image: ""
+image: /images/uploads/screenshot-2026-04-26-at-12.28.20 pm.png
 order: 2
 active: true
 ---
