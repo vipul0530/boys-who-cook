@@ -3,23 +3,23 @@
   "subtitle": "Your generosity helps us empower more boys through the art of cooking.",
   "image": "",
   "why_heading": "Why Your Donation Matters",
-  "why_text": "Every contribution to Boys Who Cook directly funds our programs, cooking supplies, and community events. As a nonprofit organization, we rely on the generosity of donors like you to keep our programs free and accessible to all boys, regardless of their background or financial situation.\n\nWhen you donate to Boys Who Cook, you're not just funding cooking classes — you're investing in the future of young men in our community. You're giving them skills, confidence, and opportunities that will last a lifetime.",
+  "why_text": "Every contribution to Boys Who Cook directly funds our programs, cooking supplies, and  events. As a nonprofit organization, we rely on the generosity of donors like you to keep our programs free and accessible to all boys, regardless of their background or financial situation.\n\nWhen you donate to Boys Who Cook, you're not just funding cooking classes you're investing in the future of young men in our community. You're giving them skills, confidence, and opportunities that will last a lifetime.",
   "impact": [
     {
       "amount": "$25",
-      "description": "Provides cooking supplies for one student for a full semester"
+      "description": "Provide Cooking Materials"
     },
     {
       "amount": "$50",
-      "description": "Covers ingredients for one community cooking event"
+      "description": "Provide Food to Cook"
     },
     {
       "amount": "$100",
-      "description": "Sponsors one boy's participation in our full program"
+      "description": "Provides funds to start a workshop"
     },
     {
-      "amount": "$250",
-      "description": "Funds a special community cookout serving 50+ people"
+      "amount": "$200",
+      "description": "Provides funds to start 2 workshops"
     }
   ],
   "button_text": "Donate Now",
