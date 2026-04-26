@@ -1,29 +1,28 @@
 ---
-title: Workshops
+title: Boys Who Cook Workshop
 excerpt: "Boys come together to cook meals together with guest chef. "
 image: ""
 order: 2
 active: true
 ---
+## About This Workshop
 
-## About This Program
-
-Community Cookouts are one of the most rewarding parts of Boys Who Cook. Participants work together to plan and prepare full meals, then share those meals with members of their community — including families, neighbors, and local organizations.
+This workshop introduces Boys Who Cook and its mission to break stereotypes through cooking, followed by a hands-on session where a guest chef guides students in preparing a meal together to build confidence and life skills..
 
 ## What We Do
 
-- Plan a complete menu together as a team
-- Shop for ingredients and stay within a budget
-- Cook the meal from start to finish
-- Serve the community and share in the experience
+* Learn about the Boys Who Cook mission and purpose
+* Hear from a guest chef about cooking and real-world experience
+* Cook a simple meal together as a group with guidance
+* Reflect on the experience and share what we learned
 
 ## Skills Developed
 
-- Teamwork and collaboration
-- Meal planning and budgeting
-- Large-scale cooking techniques
-- Community service and leadership
+* Understanding confidence and independence through cooking
+* Following instructions and learning from a chef
+* Basic cooking skills and kitchen teamwork
+* Communication and self-reflection
 
 ## Impact
 
-Each cookout serves dozens of community members. Participants learn that cooking is not just a personal skill — it's a way to connect with and care for the people around them.
+This program helps boys build confidence, independence, and essential life skills by breaking stereotypes and experiencing cooking in a hands-on, supportive environment.
