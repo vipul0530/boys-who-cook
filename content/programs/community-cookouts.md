@@ -1,6 +1,6 @@
 ---
-title: "Community Cookouts"
-excerpt: "Boys come together to cook meals for their community — sharing food, stories, and the joy of giving back."
+title: Workshops
+excerpt: "Boys come together to cook meals together with guest chef. "
 image: ""
 order: 2
 active: true
