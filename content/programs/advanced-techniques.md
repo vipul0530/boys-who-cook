@@ -3,7 +3,7 @@ title: Boys Who Cook Presentation
 excerpt: This presentation explains how Boys Who Cook challenges stereotypes and
   helps boys build confidence, independence, and essential life skills through
   cooking.
-image: ""
+image: /images/uploads/screenshot-2026-04-26-at-12.25.25 pm.png
 order: 1
 active: true
 ---
