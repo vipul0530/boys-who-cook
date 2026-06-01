@@ -1,5 +1,5 @@
 ---
-title: Boys Who Cook Interactive Workshop
+title: Interactive Workshop
 excerpt: This presentation explains how Boys Who Cook challenges stereotypes and
   helps boys build confidence, independence, and essential life skills through
   cooking.
