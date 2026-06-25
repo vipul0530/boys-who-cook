@@ -12,10 +12,7 @@ export default function GalleryPage() {
       {/* Page Header */}
       <div className="page-header">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">Gallery</h1>
-          <p className="text-white/85 text-lg">
-            Snapshots of the action — cooking, learning, and community.
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold font-heading">Gallery</h1>
         </div>
       </div>
 

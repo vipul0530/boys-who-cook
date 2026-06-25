@@ -102,7 +102,6 @@ export default function ContactForm({ successMessage }: ContactFormProps) {
           <option value="">Select a topic...</option>
           <option value="volunteer">I want to volunteer</option>
           <option value="program">Question about programs</option>
-          <option value="donate">Donation inquiry</option>
           <option value="partnership">Partnership opportunity</option>
           <option value="media">Media / Press inquiry</option>
           <option value="other">Other</option>

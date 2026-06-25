@@ -33,7 +33,6 @@ collections:
           - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
           - { label: "Twitter / X URL", name: "twitter", widget: "string", required: false }
           - { label: "YouTube URL", name: "youtube", widget: "string", required: false }
-          - { label: "Donate Button Link", name: "donate_link", widget: "string", required: false, hint: "Link to your donation page (e.g. PayPal, GoFundMe)" }
           - { label: "Footer Copyright Text", name: "footer_text", widget: "string", default: "© 2024 Boys Who Cook. All rights reserved." }
           - label: "🎨 Site Color Theme"
             name: "color_theme"
@@ -108,15 +107,6 @@ collections:
             fields:
               - { label: "Section Heading", name: "heading", widget: "string" }
               - { label: "Section Subheading", name: "subheading", widget: "string", required: false }
-
-          - label: "Call to Action Section"
-            name: "cta_section"
-            widget: "object"
-            fields:
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Text", name: "text", widget: "text" }
-              - { label: "Button Text", name: "button_text", widget: "string" }
-              - { label: "Button Link", name: "button_link", widget: "string" }
 
   # ─── ABOUT PAGE ───────────────────────────────────────────────────────────
   - name: "about_page"
@@ -247,32 +237,6 @@ collections:
         widget: "number"
         default: 1
         value_type: "int"
-
-  # ─── DONATE PAGE ──────────────────────────────────────────────────────────
-  - name: "donate_page"
-    label: "💛 Donate Page"
-    files:
-      - name: "donate"
-        label: "Donate Page Content"
-        file: "content/pages/donate.json"
-        fields:
-          - { label: "Page Title", name: "title", widget: "string" }
-          - { label: "Page Subtitle", name: "subtitle", widget: "string" }
-          - label: "Page Image"
-            name: "image"
-            widget: "image"
-            required: false
-          - { label: "Why Donate Heading", name: "why_heading", widget: "string" }
-          - { label: "Why Donate Text", name: "why_text", widget: "markdown" }
-          - label: "Impact Items"
-            name: "impact"
-            widget: "list"
-            hint: "E.g. $25 provides cooking supplies for one student"
-            fields:
-              - { label: "Amount", name: "amount", widget: "string" }
-              - { label: "Impact Description", name: "description", widget: "string" }
-          - { label: "Donate Button Text", name: "button_text", widget: "string", default: "Donate Now" }
-          - { label: "Donate Button Link (PayPal, GoFundMe, etc.)", name: "button_link", widget: "string" }
 
   # ─── CONTACT PAGE ─────────────────────────────────────────────────────────
   - name: "contact_page"

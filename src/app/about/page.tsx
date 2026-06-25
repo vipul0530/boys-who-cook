@@ -19,8 +19,7 @@ export default function AboutPage() {
       {/* Header */}
       <div className="page-header">
         <div className="max-w-2xl mx-auto">
-          <h1 className="font-serif text-4xl md:text-5xl font-semibold mb-3">{about.title}</h1>
-          <p className="text-white/75 text-base">{about.subtitle}</p>
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold">{about.title}</h1>
         </div>
       </div>
 
@@ -113,10 +112,9 @@ export default function AboutPage() {
       <section className="py-16 px-4 text-center text-white" style={{ background: "linear-gradient(135deg, var(--color-primary-700), var(--color-primary-900))" }}>
         <div className="max-w-xl mx-auto">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold mb-4">Want to Get Involved?</h2>
-          <p className="text-white/75 mb-7">Whether you want to volunteer, donate, or partner with us, we&apos;d love to hear from you.</p>
+          <p className="text-white/75 mb-7">Whether you want to volunteer or partner with us, we&apos;d love to hear from you.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/contact" className="btn-outline-white">Contact Us</Link>
-            <Link href="/donate" className="btn-secondary">Donate</Link>
           </div>
         </div>
       </section>

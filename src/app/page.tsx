@@ -247,9 +247,9 @@ export default function HomePage() {
           </div>
 
           {programs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-wrap justify-center gap-6">
               {programs.map((program) => (
-                <div key={program.slug} className="card group">
+                <div key={program.slug} className="card group w-full sm:w-[340px] flex-shrink-0">
                   {isValidUrl(program.image) ? (
                     <div className="relative h-48 overflow-hidden">
                       <Image
@@ -293,25 +293,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          DONATE CTA BANNER
-          ══════════════════════════════════════════════════════════════ */}
-      <section
-        className="py-20 px-4 text-center text-white"
-        style={{ background: "linear-gradient(135deg, var(--color-primary-700) 0%, var(--color-primary-900) 100%)" }}
-      >
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">
-            {home.cta_section.heading}
-          </h2>
-          <p className="text-white/75 text-base mb-8 leading-relaxed">
-            {home.cta_section.text}
-          </p>
-          <Link href={home.cta_section.button_link} className="btn-outline-white">
-            {home.cta_section.button_text}
-          </Link>
-        </div>
-      </section>
     </>
   );
 }

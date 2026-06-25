@@ -17,7 +17,6 @@ export interface SiteSettings {
   instagram: string;
   twitter: string;
   youtube: string;
-  donate_link: string;
   footer_text: string;
   color_theme?: string;
 }
@@ -41,12 +40,6 @@ export interface HomePageData {
   };
   stats: Array<{ number: string; label: string }>;
   programs_section: { heading: string; subheading?: string };
-  cta_section: {
-    heading: string;
-    text: string;
-    button_text: string;
-    button_link: string;
-  };
 }
 
 export interface AboutPageData {
@@ -62,16 +55,6 @@ export interface AboutPageData {
   values: Array<{ title: string; description: string; icon: string }>;
 }
 
-export interface DonatePageData {
-  title: string;
-  subtitle: string;
-  image: string;
-  why_heading: string;
-  why_text: string;
-  impact: Array<{ amount: string; description: string }>;
-  button_text: string;
-  button_link: string;
-}
 
 export interface ContactPageData {
   title: string;
@@ -152,10 +135,6 @@ export function getHomePage(): HomePageData {
 
 export function getAboutPage(): AboutPageData {
   return readJson<AboutPageData>(path.join(contentDir, "pages/about.json"));
-}
-
-export function getDonatePage(): DonatePageData {
-  return readJson<DonatePageData>(path.join(contentDir, "pages/donate.json"));
 }
 
 export function getContactPage(): ContactPageData {

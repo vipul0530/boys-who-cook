@@ -36,7 +36,6 @@ export default function RootLayout({
         <Navbar
           siteName={settings.site_name}
           logo={settings.logo}
-          donateLink={settings.donate_link}
         />
         <main className="flex-1">{children}</main>
         <Footer settings={settings} />

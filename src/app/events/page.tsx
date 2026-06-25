@@ -32,10 +32,7 @@ export default function EventsPage() {
       {/* Page Header */}
       <div className="page-header">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">Events</h1>
-          <p className="text-white/85 text-lg">
-            Join us for cooking classes, community cookouts, and more. All events are free and open to the community.
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold font-heading">Events</h1>
         </div>
       </div>
 

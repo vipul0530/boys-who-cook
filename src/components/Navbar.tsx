@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 interface NavbarProps {
   siteName: string;
   logo?: string;
-  donateLink?: string;
 }
 
 const navLinks = [
@@ -21,7 +20,7 @@ const navLinks = [
   { href: "/contact",  label: "Contact" },
 ];
 
-export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
+export default function Navbar({ siteName, logo }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -83,27 +82,8 @@ export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
             ))}
           </div>
 
-          {/* ── Donate + Mobile Toggle ───────────────────────────────── */}
+          {/* ── Mobile Toggle ────────────────────────────────────────── */}
           <div className="flex items-center gap-3">
-            {/* Donate button */}
-            {donateLink ? (
-              <a
-                href={donateLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:inline-flex btn-primary text-sm py-2 px-5"
-              >
-                Donate
-              </a>
-            ) : (
-              <Link
-                href="/donate"
-                className="hidden md:inline-flex btn-primary text-sm py-2 px-5"
-              >
-                Donate
-              </Link>
-            )}
-
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -143,26 +123,6 @@ export default function Navbar({ siteName, logo, donateLink }: NavbarProps) {
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2">
-              {donateLink ? (
-                <a
-                  href={donateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center btn-primary"
-                >
-                  Donate
-                </a>
-              ) : (
-                <Link
-                  href="/donate"
-                  onClick={() => setMenuOpen(false)}
-                  className="block w-full text-center btn-primary"
-                >
-                  Donate
-                </Link>
-              )}
-            </div>
           </div>
         </div>
       )}

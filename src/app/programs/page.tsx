@@ -17,8 +17,7 @@ export default function ProgramsPage() {
     <>
       <div className="page-header">
         <div className="max-w-2xl mx-auto">
-          <h1 className="font-serif text-4xl md:text-5xl font-semibold mb-3">Our Programs</h1>
-          <p className="text-white/75 text-base">From beginners to advanced — a program for every young man ready to learn.</p>
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold">Our Programs</h1>
         </div>
       </div>
 
