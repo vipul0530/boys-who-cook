@@ -28,9 +28,9 @@ export default function TeamPage() {
               <p>Add team members via the Admin panel.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+            <div className="flex flex-wrap justify-center gap-10">
               {team.map((member) => (
-                <div key={member.slug} className="text-center">
+                <div key={member.slug} className="text-center w-full sm:w-64 flex-shrink-0">
                   <div
                     className="relative mx-auto mb-5 w-36 h-36 rounded-full overflow-hidden shadow-md"
                     style={{ outline: "4px solid var(--color-primary-100)", outlineOffset: "2px" }}
