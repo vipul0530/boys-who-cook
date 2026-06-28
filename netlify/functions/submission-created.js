@@ -41,7 +41,7 @@ function buildEmail({ greetingName, participantName, workshopName, workshopDate 
     `Dear ${greetingName},\n\n` +
     `Thank you. We are writing to confirm that we have received your completed liability form for ${participantName} for the ${workshopName}${datePhrase}.\n\n` +
     `It is our pleasure to welcome you to Boys Who Cook, and we look forward with great enthusiasm to having ${participantName} join us in the workshop. Our team is committed to providing a safe, encouraging, and inspiring environment where every young cook can learn, grow, and enjoy the experience.\n\n` +
-    `Should you have any questions before the workshop, you are warmly invited to reply directly to this email.\n\n` +
+    `Should you have any questions before the workshop, you are warmly invited to send an email to info@boyswhocook.org.\n\n` +
     `With warm regards,\n` +
     `The Boys Who Cook Team`;
 
@@ -78,7 +78,7 @@ function buildEmail({ greetingName, participantName, workshopName, workshopDate 
           <!-- Confirmation banner -->
           <tr>
             <td style="padding:28px 40px 8px;text-align:center;">
-              <div style="display:inline-block;background:${BRAND.teal};color:#ffffff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:6px 16px;border-radius:999px;">Form Received</div>
+              <div style="display:inline-block;background:${BRAND.teal};color:#ffffff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:6px 16px;border-radius:999px;">Liability Form Received</div>
             </td>
           </tr>
 
@@ -117,7 +117,7 @@ function buildEmail({ greetingName, participantName, workshopName, workshopDate 
           <tr>
             <td style="padding:16px 40px 8px;">
               <p style="margin:0 0 16px;color:${BRAND.ink};font-size:15px;line-height:1.7;">
-                Should you have any questions before the workshop, you are warmly invited to reply directly to this email.
+                Should you have any questions before the workshop, you are warmly invited to send an email to <a href="mailto:info@boyswhocook.org" style="color:${BRAND.teal};text-decoration:none;font-weight:600;">info@boyswhocook.org</a>.
               </p>
               <p style="margin:24px 0 4px;color:${BRAND.ink};font-size:15px;line-height:1.6;">With warm regards,</p>
               <p style="margin:0;color:${BRAND.navy};font-size:15px;font-weight:700;">The Boys Who Cook Team</p>
@@ -172,13 +172,6 @@ async function sendEmail(apiKey, from, to, message, attachments) {
   return true;
 }
 
-// Parse a data URL (data:image/png;base64,XXXX) into a Resend attachment.
-function signatureAttachment(dataUrl, filename) {
-  const m = /^data:(image\/\w+);base64,(.+)$/s.exec(String(dataUrl || "").trim());
-  if (!m) return null;
-  return { filename, content: m[2] };
-}
-
 // Build the internal admin notification: a clean summary of every field, with
 // the two signatures sent as PNG attachments (viewable in Gmail).
 function buildAdminEmail(data, participantName, workshopName) {
@@ -205,9 +198,7 @@ function buildAdminEmail(data, participantName, workshopName) {
   ];
 
   const textRows = rows.map(([k, v]) => `${k}: ${String(v || "").trim() || "-"}`).join("\n");
-  const text =
-    `New signed waiver received.\n\n${textRows}\n\n` +
-    `The parent and participant signatures are attached to this email as PNG images.`;
+  const text = `New signed waiver received.\n\n${textRows}`;
 
   const htmlRows = rows
     .map(
@@ -227,7 +218,6 @@ function buildAdminEmail(data, participantName, workshopName) {
       </td></tr>
       <tr><td style="padding:20px 28px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">${htmlRows}</table>
-        <p style="margin:18px 0 0;color:#6B7280;font-size:13px;line-height:1.6;">The parent and participant signatures are attached to this email as PNG images.</p>
       </td></tr>
     </table>
   </body></html>`;
@@ -299,15 +289,8 @@ exports.handler = async (event) => {
       .filter((s) => EMAIL_RE.test(s));
 
     if (adminList.length) {
-      const safe = (participantName || "participant").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-      const attachments = [];
-      const parentSig = signatureAttachment(data.signature, `parent-signature-${safe}.png`);
-      const participantSig = signatureAttachment(data.participant_signature, `participant-signature-${safe}.png`);
-      if (parentSig) attachments.push(parentSig);
-      if (participantSig) attachments.push(participantSig);
-
       const adminMessage = buildAdminEmail(data, participantName, workshopName);
-      await sendEmail(apiKey, fromAddress, adminList, adminMessage, attachments);
+      await sendEmail(apiKey, fromAddress, adminList, adminMessage);
     }
 
     return { statusCode: 200, body: `Confirmation emails sent: ${sent}/${recipients.length}; admin notified.` };
