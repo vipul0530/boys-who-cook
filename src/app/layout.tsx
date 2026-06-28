@@ -52,8 +52,11 @@ export default function RootLayout({
           <input name="bot-field" />
           <input name="participant_name" type="text" />
           <input name="date_of_birth" type="date" />
+          <input name="participant_email" type="email" />
+          <input name="participant_phone" type="tel" />
           <input name="parent_name" type="text" />
           <input name="parent_email" type="email" />
+          <input name="parent_phone" type="tel" />
           <input name="workshop_name" type="text" />
           <input name="workshop_date" type="date" />
           <input name="facility" type="text" />
@@ -62,9 +65,11 @@ export default function RootLayout({
           <input name="emergency_contact_phone" type="tel" />
           <input name="photo_opt_out" type="checkbox" />
           <input name="signature" type="text" />
+          <input name="participant_signature" type="text" />
           <input name="parent_printed_name" type="text" />
           <input name="participant_printed_name" type="text" />
           <input name="acknowledgment" type="checkbox" />
+          <input name="signed_date" type="date" />
         </form>
 
         {/* Netlify Identity redirect script */}

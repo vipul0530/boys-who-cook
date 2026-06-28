@@ -51,16 +51,27 @@ const inputClass =
   "w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-400 focus:ring-2 focus:ring-primary-100 outline-none transition-all text-gray-800 placeholder-gray-400 bg-white";
 const labelClass = "block text-sm font-semibold text-gray-700 mb-1.5";
 
-// Required text/date/tel/email fields (in order, allergies handled separately)
-const TEXT_FIELDS = [
-  { name: "participant_name", label: "Participant (Minor) Full Name", type: "text" },
-  { name: "date_of_birth", label: "Date of Birth", type: "date" },
-  { name: "parent_name", label: "Parent or Legal Guardian Name", type: "text" },
-  { name: "parent_email", label: "Parent Email", type: "email" },
-  { name: "workshop_name", label: "Workshop Name / Event", type: "text", default: "Boys Who Cook Cooking Workshop" },
-  { name: "workshop_date", label: "Workshop Date", type: "date" },
-  { name: "facility", label: "Facility", type: "text", default: "Tustin Youth and Family Center" },
-] as const;
+// Text/date/tel/email field definitions (allergies handled separately).
+type FieldDef = { label: string; type: string; required: boolean; default?: string };
+const FIELDS: Record<string, FieldDef> = {
+  participant_name: { label: "Participant (Minor) Full Name", type: "text", required: true },
+  date_of_birth: { label: "Date of Birth", type: "date", required: true },
+  participant_email: { label: "Participant Email", type: "email", required: true },
+  participant_phone: { label: "Participant Phone Number (optional)", type: "tel", required: false },
+  parent_name: { label: "Parent or Legal Guardian Name", type: "text", required: true },
+  parent_email: { label: "Parent Email", type: "email", required: true },
+  parent_phone: { label: "Parent Phone Number (optional)", type: "tel", required: false },
+  workshop_name: { label: "Workshop Name / Event", type: "text", required: true, default: "Boys Who Cook Workshop" },
+  workshop_date: { label: "Workshop Date", type: "date", required: true },
+  facility: { label: "Facility", type: "text", required: true },
+  emergency_contact_name: { label: "Emergency Contact Name", type: "text", required: true },
+  emergency_contact_phone: { label: "Emergency Contact Phone", type: "tel", required: true },
+  parent_printed_name: { label: "Parent Printed Name", type: "text", required: true },
+  participant_printed_name: { label: "Participant Printed Name", type: "text", required: true },
+  signed_date: { label: "Date", type: "date", required: true },
+};
+
+const EMAIL_FIELDS = ["participant_email", "parent_email"];
 
 interface SignaturePadInstance {
   isEmpty(): boolean;
@@ -83,58 +94,69 @@ export default function WaiverForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successName, setSuccessName] = useState("");
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const padRef = useRef<SignaturePadInstance | null>(null);
+  const parentCanvasRef = useRef<HTMLCanvasElement>(null);
+  const participantCanvasRef = useRef<HTMLCanvasElement>(null);
+  const parentPadRef = useRef<SignaturePadInstance | null>(null);
+  const participantPadRef = useRef<SignaturePadInstance | null>(null);
   const signatureInputRef = useRef<HTMLInputElement>(null);
+  const participantSignatureInputRef = useRef<HTMLInputElement>(null);
 
-  // ── Load signature_pad from CDN and initialize the pad ──────────────────
+  // ── Load signature_pad from CDN and initialize both pads ────────────────
   useEffect(() => {
     let cancelled = false;
 
-    function initPad() {
-      const canvas = canvasRef.current;
-      if (!canvas || !window.SignaturePad) return;
-      const pad = new window.SignaturePad(canvas, {
-        backgroundColor: "rgb(255, 255, 255)",
-        penColor: "rgb(27, 58, 92)", // brand navy
-      });
-      padRef.current = pad;
-      resizeCanvas();
+    const pairs: Array<[React.RefObject<HTMLCanvasElement>, React.MutableRefObject<SignaturePadInstance | null>]> = [
+      [parentCanvasRef, parentPadRef],
+      [participantCanvasRef, participantPadRef],
+    ];
+
+    function initPads() {
+      if (!window.SignaturePad) return;
+      for (const [canvasRef, padRef] of pairs) {
+        const canvas = canvasRef.current;
+        if (!canvas) continue;
+        padRef.current = new window.SignaturePad(canvas, {
+          backgroundColor: "rgb(255, 255, 255)",
+          penColor: "rgb(27, 58, 92)", // brand navy
+        });
+      }
+      resizeCanvases();
     }
 
-    function resizeCanvas() {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      const { width, height } = canvas.getBoundingClientRect();
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
-      const ctx = canvas.getContext("2d");
-      ctx?.scale(ratio, ratio);
-      padRef.current?.clear();
+    function resizeCanvases() {
+      for (const [canvasRef, padRef] of pairs) {
+        const canvas = canvasRef.current;
+        if (!canvas) continue;
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        const { width, height } = canvas.getBoundingClientRect();
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        canvas.getContext("2d")?.scale(ratio, ratio);
+        padRef.current?.clear();
+      }
     }
 
     if (window.SignaturePad) {
-      initPad();
+      initPads();
     } else {
       const existing = document.querySelector<HTMLScriptElement>("script[data-signature-pad]");
       if (existing) {
-        existing.addEventListener("load", () => !cancelled && initPad());
+        existing.addEventListener("load", () => !cancelled && initPads());
       } else {
         const script = document.createElement("script");
         script.src =
           "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js";
         script.async = true;
         script.dataset.signaturePad = "true";
-        script.onload = () => !cancelled && initPad();
+        script.onload = () => !cancelled && initPads();
         document.body.appendChild(script);
       }
     }
 
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", resizeCanvases);
     return () => {
       cancelled = true;
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", resizeCanvases);
     };
   }, []);
 
@@ -147,8 +169,11 @@ export default function WaiverForm() {
     }
   }
 
-  function clearSignature() {
-    padRef.current?.clear();
+  function clearParentSignature() {
+    parentPadRef.current?.clear();
+  }
+  function clearParticipantSignature() {
+    participantPadRef.current?.clear();
   }
 
   // ── Submit ──────────────────────────────────────────────────────────────
@@ -158,12 +183,8 @@ export default function WaiverForm() {
     const newErrors: Record<string, string> = {};
 
     const requiredNames = [
-      ...TEXT_FIELDS.map((f) => f.name),
+      ...Object.keys(FIELDS).filter((k) => FIELDS[k].required),
       "allergies",
-      "emergency_contact_name",
-      "emergency_contact_phone",
-      "parent_printed_name",
-      "participant_printed_name",
     ];
 
     const fd = new FormData(form);
@@ -172,17 +193,22 @@ export default function WaiverForm() {
       if (!val) newErrors[name] = "This field is required.";
     }
 
-    const email = (fd.get("parent_email") as string | null)?.trim() ?? "";
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.parent_email = "Please enter a valid email address.";
+    for (const name of EMAIL_FIELDS) {
+      const email = (fd.get(name) as string | null)?.trim() ?? "";
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newErrors[name] = "Please enter a valid email address.";
+      }
     }
 
     if (!fd.get("acknowledgment")) {
       newErrors.acknowledgment = "Please confirm you have read and understand this form.";
     }
 
-    if (!padRef.current || padRef.current.isEmpty()) {
-      newErrors.signature = "Please provide a signature.";
+    if (!parentPadRef.current || parentPadRef.current.isEmpty()) {
+      newErrors.signature = "Please provide the parent or guardian signature.";
+    }
+    if (!participantPadRef.current || participantPadRef.current.isEmpty()) {
+      newErrors.participant_signature = "Please provide the participant signature.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -198,9 +224,12 @@ export default function WaiverForm() {
     setErrors({});
     setStatus("submitting");
 
-    // Save signature as base64 into the hidden input so Netlify captures it.
-    if (signatureInputRef.current && padRef.current) {
-      signatureInputRef.current.value = padRef.current.toDataURL("image/png");
+    // Save both signatures as base64 into hidden inputs so Netlify captures them.
+    if (signatureInputRef.current && parentPadRef.current) {
+      signatureInputRef.current.value = parentPadRef.current.toDataURL("image/png");
+    }
+    if (participantSignatureInputRef.current && participantPadRef.current) {
+      participantSignatureInputRef.current.value = participantPadRef.current.toDataURL("image/png");
     }
 
     const data = new FormData(form);
@@ -220,6 +249,55 @@ export default function WaiverForm() {
       setStatus("error");
     }
   }
+
+  const renderField = (name: string, spanClass = "") => {
+    const f = FIELDS[name];
+    return (
+      <div data-field={name} className={spanClass}>
+        <label htmlFor={name} className={labelClass}>
+          {f.label} {f.required && <span className="text-red-500">*</span>}
+        </label>
+        <input id={name} name={name} type={f.type} defaultValue={f.default} className={inputClass} />
+        {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
+      </div>
+    );
+  };
+
+  const eyebrow = (text: string) => (
+    <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--color-secondary-600)" }}>
+      {text}
+    </p>
+  );
+
+  const signatureBlock = (
+    label: string,
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+    onClear: () => void,
+    errorKey: string
+  ) => (
+    <div data-field={errorKey}>
+      <label className={labelClass}>
+        {label} <span className="text-red-500">*</span>
+      </label>
+      <div className={`transition-opacity duration-500 ${unlocked ? "opacity-100" : "opacity-50 pointer-events-none"}`}>
+        <canvas
+          ref={canvasRef}
+          className="w-full h-44 rounded-xl border border-gray-300 bg-white"
+          style={{ touchAction: "none" }}
+        />
+        <button
+          type="button"
+          onClick={onClear}
+          disabled={!unlocked}
+          className="mt-2 text-sm font-medium underline hover:no-underline disabled:opacity-50"
+          style={{ color: "var(--color-primary-700)" }}
+        >
+          Clear
+        </button>
+      </div>
+      {errors[errorKey] && <p className="text-red-500 text-xs mt-1">{errors[errorKey]}</p>}
+    </div>
+  );
 
   if (status === "success") {
     return (
@@ -250,23 +328,47 @@ export default function WaiverForm() {
         </label>
       </p>
       <input ref={signatureInputRef} type="hidden" name="signature" />
+      <input ref={participantSignatureInputRef} type="hidden" name="participant_signature" />
 
-      {/* Text / date / email fields */}
-      {TEXT_FIELDS.map((f) => (
-        <div key={f.name} data-field={f.name}>
-          <label htmlFor={f.name} className={labelClass}>
-            {f.label} <span className="text-red-500">*</span>
-          </label>
-          <input
-            id={f.name}
-            name={f.name}
-            type={f.type}
-            defaultValue={"default" in f ? f.default : undefined}
-            className={inputClass}
-          />
-          {errors[f.name] && <p className="text-red-500 text-xs mt-1">{errors[f.name]}</p>}
+      {/* Participant */}
+      <div>
+        {eyebrow("Participant")}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+          {renderField("participant_name", "sm:col-span-2")}
+          {renderField("date_of_birth")}
+          {renderField("participant_email")}
+          {renderField("participant_phone")}
         </div>
-      ))}
+      </div>
+
+      {/* Parent / Guardian */}
+      <div>
+        {eyebrow("Parent / Guardian")}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+          {renderField("parent_name", "sm:col-span-2")}
+          {renderField("parent_email")}
+          {renderField("parent_phone")}
+        </div>
+      </div>
+
+      {/* Workshop */}
+      <div>
+        {eyebrow("Workshop")}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+          {renderField("workshop_name")}
+          {renderField("workshop_date")}
+          {renderField("facility", "sm:col-span-2")}
+        </div>
+      </div>
+
+      {/* Emergency Contact */}
+      <div>
+        {eyebrow("Emergency Contact")}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+          {renderField("emergency_contact_name")}
+          {renderField("emergency_contact_phone")}
+        </div>
+      </div>
 
       {/* Allergies */}
       <div data-field="allergies">
@@ -282,28 +384,6 @@ export default function WaiverForm() {
           className={`${inputClass} resize-none`}
         />
         {errors.allergies && <p className="text-red-500 text-xs mt-1">{errors.allergies}</p>}
-      </div>
-
-      {/* Emergency contact */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div data-field="emergency_contact_name">
-          <label htmlFor="emergency_contact_name" className={labelClass}>
-            Emergency Contact Name <span className="text-red-500">*</span>
-          </label>
-          <input id="emergency_contact_name" name="emergency_contact_name" type="text" className={inputClass} />
-          {errors.emergency_contact_name && (
-            <p className="text-red-500 text-xs mt-1">{errors.emergency_contact_name}</p>
-          )}
-        </div>
-        <div data-field="emergency_contact_phone">
-          <label htmlFor="emergency_contact_phone" className={labelClass}>
-            Emergency Contact Phone <span className="text-red-500">*</span>
-          </label>
-          <input id="emergency_contact_phone" name="emergency_contact_phone" type="tel" className={inputClass} />
-          {errors.emergency_contact_phone && (
-            <p className="text-red-500 text-xs mt-1">{errors.emergency_contact_phone}</p>
-          )}
-        </div>
       </div>
 
       {/* Waiver text — scrollable read-only box */}
@@ -339,62 +419,37 @@ export default function WaiverForm() {
         </span>
       </label>
 
-      {/* Signature pad */}
-      <div data-field="signature">
+      {/* Signatures */}
+      <div>
+        {eyebrow("Signatures")}
         <p
-          className="text-sm font-medium mb-2 transition-colors duration-500"
+          className="text-sm font-medium mb-4 transition-colors duration-500"
           style={{ color: unlocked ? "var(--color-secondary-600)" : "#9CA3AF" }}
         >
           {unlocked
             ? "Please sign below using your finger or mouse."
             : "Please scroll through the full waiver above to unlock signing."}
         </p>
-        <label className={labelClass}>
-          Parent or Legal Guardian Signature <span className="text-red-500">*</span>
-        </label>
-        <div
-          className={`transition-opacity duration-500 ${
-            unlocked ? "opacity-100" : "opacity-50 pointer-events-none"
-          }`}
-        >
-          <canvas
-            ref={canvasRef}
-            className="w-full h-48 rounded-xl border border-gray-300 bg-white"
-            style={{ touchAction: "none" }}
-          />
-          <button
-            type="button"
-            onClick={clearSignature}
-            disabled={!unlocked}
-            className="mt-2 text-sm font-medium underline hover:no-underline disabled:opacity-50"
-            style={{ color: "var(--color-primary-700)" }}
-          >
-            Clear
-          </button>
+        <div className="space-y-6">
+          {signatureBlock(
+            "Parent or Legal Guardian Signature",
+            parentCanvasRef,
+            clearParentSignature,
+            "signature"
+          )}
+          {signatureBlock(
+            "Participant Signature",
+            participantCanvasRef,
+            clearParticipantSignature,
+            "participant_signature"
+          )}
         </div>
-        {errors.signature && <p className="text-red-500 text-xs mt-1">{errors.signature}</p>}
       </div>
 
       {/* Printed names */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div data-field="parent_printed_name">
-          <label htmlFor="parent_printed_name" className={labelClass}>
-            Parent Printed Name <span className="text-red-500">*</span>
-          </label>
-          <input id="parent_printed_name" name="parent_printed_name" type="text" className={inputClass} />
-          {errors.parent_printed_name && (
-            <p className="text-red-500 text-xs mt-1">{errors.parent_printed_name}</p>
-          )}
-        </div>
-        <div data-field="participant_printed_name">
-          <label htmlFor="participant_printed_name" className={labelClass}>
-            Participant Printed Name <span className="text-red-500">*</span>
-          </label>
-          <input id="participant_printed_name" name="participant_printed_name" type="text" className={inputClass} />
-          {errors.participant_printed_name && (
-            <p className="text-red-500 text-xs mt-1">{errors.participant_printed_name}</p>
-          )}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+        {renderField("parent_printed_name")}
+        {renderField("participant_printed_name")}
       </div>
 
       {/* Acknowledgment */}
@@ -407,6 +462,9 @@ export default function WaiverForm() {
         </label>
         {errors.acknowledgment && <p className="text-red-500 text-xs mt-1">{errors.acknowledgment}</p>}
       </div>
+
+      {/* Date (signed) */}
+      <div className="sm:max-w-xs">{renderField("signed_date")}</div>
 
       {status === "error" && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
