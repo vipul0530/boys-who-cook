@@ -144,28 +144,95 @@ function buildEmail({ greetingName, participantName, workshopName, workshopDate 
   return { subject, text, html };
 }
 
-async function sendEmail(apiKey, from, to, message) {
+async function sendEmail(apiKey, from, to, message, attachments) {
+  const toList = Array.isArray(to) ? to : [to];
+  const payload = {
+    from,
+    to: toList,
+    subject: message.subject,
+    html: message.html,
+    text: message.text,
+  };
+  if (attachments && attachments.length) payload.attachments = attachments;
+
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      subject: message.subject,
-      html: message.html,
-      text: message.text,
-    }),
+    body: JSON.stringify(payload),
   });
   if (!res.ok) {
     const detail = await res.text();
-    console.log("Resend send failed for", to, "-", res.status, detail);
+    console.log("Resend send failed for", toList.join(", "), "-", res.status, detail);
     return false;
   }
-  console.log("Confirmation email sent to", to);
+  console.log("Email sent to", toList.join(", "));
   return true;
+}
+
+// Parse a data URL (data:image/png;base64,XXXX) into a Resend attachment.
+function signatureAttachment(dataUrl, filename) {
+  const m = /^data:(image\/\w+);base64,(.+)$/s.exec(String(dataUrl || "").trim());
+  if (!m) return null;
+  return { filename, content: m[2] };
+}
+
+// Build the internal admin notification: a clean summary of every field, with
+// the two signatures sent as PNG attachments (viewable in Gmail).
+function buildAdminEmail(data, participantName, workshopName) {
+  const subject = `New signed waiver: ${participantName}`;
+  const rows = [
+    ["Participant (Minor)", data.participant_name],
+    ["Date of Birth", data.date_of_birth],
+    ["Participant Email", data.participant_email],
+    ["Participant Phone", data.participant_phone],
+    ["Parent / Guardian", data.parent_name],
+    ["Parent Email", data.parent_email],
+    ["Parent Phone", data.parent_phone],
+    ["Workshop", data.workshop_name],
+    ["Workshop Date", data.workshop_date],
+    ["Facility", data.facility],
+    ["Allergies / Dietary", data.allergies],
+    ["Emergency Contact", data.emergency_contact_name],
+    ["Emergency Phone", data.emergency_contact_phone],
+    ["Photo Opt-Out", data.photo_opt_out ? "YES (do not photograph)" : "No"],
+    ["Parent Printed Name", data.parent_printed_name],
+    ["Participant Printed Name", data.participant_printed_name],
+    ["Acknowledged Terms", data.acknowledgment ? "Yes" : "No"],
+    ["Date Signed", data.signed_date],
+  ];
+
+  const textRows = rows.map(([k, v]) => `${k}: ${String(v || "").trim() || "-"}`).join("\n");
+  const text =
+    `New signed waiver received.\n\n${textRows}\n\n` +
+    `The parent and participant signatures are attached to this email as PNG images.`;
+
+  const htmlRows = rows
+    .map(
+      ([k, v]) =>
+        `<tr>
+           <td style="padding:8px 12px;border-bottom:1px solid #E5E7EB;color:#6B7280;font-size:13px;white-space:nowrap;vertical-align:top;">${esc(k)}</td>
+           <td style="padding:8px 12px;border-bottom:1px solid #E5E7EB;color:#1f2937;font-size:13px;font-weight:600;">${esc(String(v || "").trim() || "-")}</td>
+         </tr>`
+    )
+    .join("");
+
+  const html = `<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#EEF3FA;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;">
+      <tr><td style="background:#13294a;padding:22px 28px;">
+        <div style="color:#ffffff;font-size:18px;font-weight:700;">New Signed Waiver</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:2px;">${esc(participantName)} &middot; ${esc(workshopName)}</div>
+      </td></tr>
+      <tr><td style="padding:20px 28px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">${htmlRows}</table>
+        <p style="margin:18px 0 0;color:#6B7280;font-size:13px;line-height:1.6;">The parent and participant signatures are attached to this email as PNG images.</p>
+      </td></tr>
+    </table>
+  </body></html>`;
+
+  return { subject, text, html };
 }
 
 exports.handler = async (event) => {
@@ -224,7 +291,26 @@ exports.handler = async (event) => {
     );
 
     const sent = results.filter(Boolean).length;
-    return { statusCode: 200, body: `Confirmation emails sent: ${sent}/${recipients.length}.` };
+
+    // Internal admin notification with signatures attached as PNG images.
+    const adminList = (process.env.ADMIN_EMAILS || "shaanbhavsar@gmail.com,vipul30@gmail.com")
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => EMAIL_RE.test(s));
+
+    if (adminList.length) {
+      const safe = (participantName || "participant").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+      const attachments = [];
+      const parentSig = signatureAttachment(data.signature, `parent-signature-${safe}.png`);
+      const participantSig = signatureAttachment(data.participant_signature, `participant-signature-${safe}.png`);
+      if (parentSig) attachments.push(parentSig);
+      if (participantSig) attachments.push(participantSig);
+
+      const adminMessage = buildAdminEmail(data, participantName, workshopName);
+      await sendEmail(apiKey, fromAddress, adminList, adminMessage, attachments);
+    }
+
+    return { statusCode: 200, body: `Confirmation emails sent: ${sent}/${recipients.length}; admin notified.` };
   } catch (err) {
     console.log("submission-created function error:", err && err.message);
     return { statusCode: 200, body: "Handled error gracefully." };
