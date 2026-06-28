@@ -51,6 +51,7 @@ export default function Footer({ settings }: FooterProps) {
                 { href: "/events",   label: "Events" },
                 { href: "/gallery",  label: "Gallery" },
                 { href: "/team",     label: "Our Team" },
+                { href: "/liability-form", label: "Liability Form" },
                 { href: "/contact",  label: "Contact" },
               ].map((link) => (
                 <li key={link.href}>

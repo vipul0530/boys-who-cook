@@ -17,6 +17,7 @@ const navLinks = [
   { href: "/events",   label: "Events" },
   { href: "/gallery",  label: "Gallery" },
   { href: "/team",     label: "Team" },
+  { href: "/liability-form", label: "Liability Form" },
   { href: "/contact",  label: "Contact" },
 ];
 
