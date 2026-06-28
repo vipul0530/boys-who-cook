@@ -18,6 +18,13 @@ const BRAND = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Convert an HTML date input value (YYYY-MM-DD) to US format MM/DD/YYYY.
+// Splits on the literal string to avoid any timezone shifting.
+function formatDate(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso).trim());
+  return m ? `${m[2]}/${m[3]}/${m[1]}` : String(iso).trim();
+}
+
 function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -177,7 +184,7 @@ exports.handler = async (event) => {
     const parentName = String(data.parent_name || "").trim() || "Parent or Guardian";
     const participantName = String(data.participant_name || "").trim() || "your child";
     const workshopName = String(data.workshop_name || "").trim() || "Boys Who Cook Workshop";
-    const workshopDate = String(data.workshop_date || "").trim();
+    const workshopDate = formatDate(data.workshop_date || "");
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
