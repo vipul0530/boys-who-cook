@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import JotformEmbed from "@/components/JotformEmbed";
+import WaiverForm from "@/components/WaiverForm";
 
 export const metadata: Metadata = { title: "Liability Form" };
 
@@ -57,9 +57,9 @@ export default function LiabilityFormPage() {
             </h2>
           </div>
 
-          {/* Jotform embed — centered, full width on mobile, ~750px on desktop */}
+          {/* Native Netlify waiver form — centered, full width on mobile, ~750px on desktop */}
           <div className="mx-auto w-full max-w-[750px]">
-            <JotformEmbed formId="261785678161065" />
+            <WaiverForm />
           </div>
         </div>
       </section>

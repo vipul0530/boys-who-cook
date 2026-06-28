@@ -8,6 +8,11 @@
 # Note: Do NOT add @netlify/plugin-nextjs here — that plugin is for SSR
 # Next.js only and breaks static exports.
 
+# Serverless functions (parent confirmation email on form submission)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Serve the admin SPA correctly
 [[redirects]]
   from = "/admin"
