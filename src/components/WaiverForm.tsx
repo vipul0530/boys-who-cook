@@ -90,7 +90,6 @@ declare global {
 }
 
 export default function WaiverForm() {
-  const [unlocked, setUnlocked] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successName, setSuccessName] = useState("");
@@ -160,15 +159,6 @@ export default function WaiverForm() {
       window.removeEventListener("resize", resizeCanvases);
     };
   }, []);
-
-  // ── Scroll-to-unlock on the waiver box ──────────────────────────────────
-  function handleWaiverScroll(e: React.UIEvent<HTMLDivElement>) {
-    if (unlocked) return;
-    const el = e.currentTarget;
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 24) {
-      setUnlocked(true);
-    }
-  }
 
   function clearParentSignature() {
     parentPadRef.current?.clear();
@@ -281,7 +271,7 @@ export default function WaiverForm() {
       <label className={labelClass}>
         {label} <span className="text-red-500">*</span>
       </label>
-      <div className={`transition-opacity duration-500 ${unlocked ? "opacity-100" : "opacity-50 pointer-events-none"}`}>
+      <div>
         <canvas
           ref={canvasRef}
           className="w-full h-44 rounded-xl border border-gray-300 bg-white"
@@ -290,8 +280,7 @@ export default function WaiverForm() {
         <button
           type="button"
           onClick={onClear}
-          disabled={!unlocked}
-          className="mt-2 text-sm font-medium underline hover:no-underline disabled:opacity-50"
+          className="mt-2 text-sm font-medium underline hover:no-underline"
           style={{ color: "var(--color-primary-700)" }}
         >
           Clear
@@ -391,10 +380,7 @@ export default function WaiverForm() {
       {/* Waiver text — scrollable read-only box */}
       <div>
         <label className={labelClass}>Full Waiver</label>
-        <div
-          onScroll={handleWaiverScroll}
-          className="h-72 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-5 text-sm text-gray-600 leading-relaxed"
-        >
+        <div className="h-72 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-5 text-sm text-gray-600 leading-relaxed">
           {WAIVER_PARAGRAPHS.map((p, i) =>
             HEADING_LINES.has(p) ? (
               <p
@@ -424,13 +410,8 @@ export default function WaiverForm() {
       {/* Signatures */}
       <div>
         {eyebrow("Signatures")}
-        <p
-          className="text-sm font-medium mb-4 transition-colors duration-500"
-          style={{ color: unlocked ? "var(--color-secondary-600)" : "#9CA3AF" }}
-        >
-          {unlocked
-            ? "Please sign below using your finger or mouse."
-            : "Please scroll through the full waiver above to unlock signing."}
+        <p className="text-sm font-medium mb-4" style={{ color: "var(--color-secondary-600)" }}>
+          Please read the full waiver above, then sign below using your finger or mouse.
         </p>
         <div className="space-y-6">
           {signatureBlock(
@@ -476,8 +457,8 @@ export default function WaiverForm() {
 
       <button
         type="submit"
-        disabled={!unlocked || status === "submitting"}
-        className="btn-primary w-full py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-500"
+        disabled={status === "submitting"}
+        className="btn-primary w-full py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {status === "submitting" ? "Submitting..." : "Submit Signed Waiver"}
       </button>
