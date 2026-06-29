@@ -19,6 +19,24 @@
   to = "/admin/index.html"
   status = 200
 
+# Admin signed-waiver viewer (password-protected serverless functions)
+[[redirects]]
+  from = "/waivers"
+  to = "/.netlify/functions/waivers"
+  status = 200
+[[redirects]]
+  from = "/waivers/"
+  to = "/.netlify/functions/waivers"
+  status = 200
+[[redirects]]
+  from = "/waivers/pdf"
+  to = "/.netlify/functions/waiver-pdf"
+  status = 200
+[[redirects]]
+  from = "/waivers/pdf/"
+  to = "/.netlify/functions/waiver-pdf"
+  status = 200
+
 # Fallback: unknown paths → Next.js 404 page
 [[redirects]]
   from = "/*"
