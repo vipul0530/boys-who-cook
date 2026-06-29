@@ -52,8 +52,26 @@ function loginPage(error) {
   </form>`);
 }
 
-async function fetchWaiverSubmissions(token) {
-  const formsRes = await fetch("https://api.netlify.com/api/v1/forms", { headers: { Authorization: `Bearer ${token}` } });
+async function getSiteId(token, host) {
+  if (process.env.SITE_ID) return process.env.SITE_ID;
+  const res = await fetch("https://api.netlify.com/api/v1/sites?per_page=100", { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error("Sites API returned " + res.status);
+  const list = await res.json();
+  const sites = Array.isArray(list) ? list : [];
+  const h = String(host || "").toLowerCase();
+  let site =
+    sites.find((s) => String(s.custom_domain || "").toLowerCase() === h) ||
+    sites.find((s) => (s.domain_aliases || []).some((d) => String(d).toLowerCase() === h)) ||
+    sites.find((s) => h && h.startsWith(String(s.name || "").toLowerCase() + ".")) ||
+    sites.find((s) => h && h.includes(String(s.name || "").toLowerCase()));
+  if (!site && sites.length === 1) site = sites[0];
+  if (!site) throw new Error("could not match a site for " + h);
+  return site.id;
+}
+
+async function fetchWaiverSubmissions(token, host) {
+  const siteId = await getSiteId(token, host);
+  const formsRes = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/forms`, { headers: { Authorization: `Bearer ${token}` } });
   if (!formsRes.ok) throw new Error("Forms API returned " + formsRes.status);
   const forms = await formsRes.json();
   const form = (Array.isArray(forms) ? forms : []).find((f) => f.name === "waiver");
@@ -97,7 +115,8 @@ exports.handler = async (event) => {
 
   let subs;
   try {
-    subs = await fetchWaiverSubmissions(apiToken);
+    const host = event.headers && (event.headers.host || event.headers.Host);
+    subs = await fetchWaiverSubmissions(apiToken, host);
   } catch (e) {
     return { statusCode: 200, headers: htmlHeaders, body: html(`<p class="muted">Could not load submissions: ${esc(e.message)}</p>`) };
   }
