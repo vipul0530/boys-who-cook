@@ -285,7 +285,7 @@ exports.handler = async (event) => {
 
     const sent = results.filter(Boolean).length;
 
-    // Internal admin notification with signatures attached as PNG images.
+    // Internal admin notification with the signed-waiver PDF attached.
     const adminList = (process.env.ADMIN_EMAILS || "shaanbhavsar@gmail.com,vipul30@gmail.com")
       .split(",")
       .map((s) => s.trim())
@@ -307,7 +307,12 @@ exports.handler = async (event) => {
         console.log("Signed-waiver PDF generation failed:", e && e.message);
       }
 
-      await sendEmail(apiKey, fromAddress, adminList, adminMessage, attachments);
+      // Send to each admin individually so one blocked recipient (e.g. on the
+      // Resend test sender, which only delivers to the account owner) does not
+      // prevent the others from receiving the email + PDF.
+      await Promise.all(
+        adminList.map((to) => sendEmail(apiKey, fromAddress, to, adminMessage, attachments))
+      );
     }
 
     return { statusCode: 200, body: `Confirmation emails sent: ${sent}/${recipients.length}; admin notified.` };
