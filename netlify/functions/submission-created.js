@@ -5,6 +5,8 @@
 // - Never blocks the submission from being recorded: any problem is logged
 //   and the function exits 200.
 
+const { buildSignedWaiverPdf } = require("../lib/signed-waiver-pdf");
+
 const BRAND = {
   navy: "#1B3A5C",
   navyDark: "#0A1624",
@@ -198,7 +200,7 @@ function buildAdminEmail(data, participantName, workshopName) {
   ];
 
   const textRows = rows.map(([k, v]) => `${k}: ${String(v || "").trim() || "-"}`).join("\n");
-  const text = `New signed waiver received.\n\n${textRows}`;
+  const text = `New signed waiver received.\n\n${textRows}\n\nThe full signed waiver, including both signatures, is attached as a PDF.`;
 
   const htmlRows = rows
     .map(
@@ -218,6 +220,7 @@ function buildAdminEmail(data, participantName, workshopName) {
       </td></tr>
       <tr><td style="padding:20px 28px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">${htmlRows}</table>
+        <p style="margin:18px 0 0;color:#6B7280;font-size:13px;line-height:1.6;">The full signed waiver, including both signatures, is attached to this email as a PDF.</p>
       </td></tr>
     </table>
   </body></html>`;
@@ -290,7 +293,21 @@ exports.handler = async (event) => {
 
     if (adminList.length) {
       const adminMessage = buildAdminEmail(data, participantName, workshopName);
-      await sendEmail(apiKey, fromAddress, adminList, adminMessage);
+
+      // Generate the signed-waiver PDF (fields + terms + both signatures) and
+      // attach it. If PDF generation fails, still send the summary email.
+      let attachments;
+      try {
+        const safe = (participantName || "participant").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+        const pdfBase64 = await buildSignedWaiverPdf(data);
+        attachments = [
+          { filename: `signed-waiver-${safe}.pdf`, content: pdfBase64, contentType: "application/pdf" },
+        ];
+      } catch (e) {
+        console.log("Signed-waiver PDF generation failed:", e && e.message);
+      }
+
+      await sendEmail(apiKey, fromAddress, adminList, adminMessage, attachments);
     }
 
     return { statusCode: 200, body: `Confirmation emails sent: ${sent}/${recipients.length}; admin notified.` };

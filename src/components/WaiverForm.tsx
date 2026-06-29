@@ -77,6 +77,7 @@ interface SignaturePadInstance {
   isEmpty(): boolean;
   clear(): void;
   toDataURL(type?: string): string;
+  toData(): unknown;
 }
 
 declare global {
@@ -224,12 +225,13 @@ export default function WaiverForm() {
     setErrors({});
     setStatus("submitting");
 
-    // Save both signatures as base64 into hidden inputs so Netlify captures them.
+    // Save both signatures as point-data JSON (from signature_pad) into hidden
+    // inputs. The server redraws them as crisp vector strokes in the PDF.
     if (signatureInputRef.current && parentPadRef.current) {
-      signatureInputRef.current.value = parentPadRef.current.toDataURL("image/png");
+      signatureInputRef.current.value = JSON.stringify(parentPadRef.current.toData());
     }
     if (participantSignatureInputRef.current && participantPadRef.current) {
-      participantSignatureInputRef.current.value = participantPadRef.current.toDataURL("image/png");
+      participantSignatureInputRef.current.value = JSON.stringify(participantPadRef.current.toData());
     }
 
     const data = new FormData(form);
